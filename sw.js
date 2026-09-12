@@ -1,14 +1,15 @@
-// Aumentamos a la versión 2 para obligar al sistema a borrar el error anterior
-const CACHE_NAME = 'gametria32-v2';
+// Aumentamos a la versión 3 para obligar al sistema a borrar la caché antigua "rota"
+const CACHE_NAME = 'gametria32-v3';
 
+// Todos los archivos estáticos en la raíz con sus nuevos nombres seguros
 const urlsToCache = [
     './',
     './index.html',
     './style.css',
     './motor.js',
     './manifest.json',
-    './logo192.png',
-    './logo512.png'
+    './Logo.png',
+    './Logo1png'
 ];
 
 self.addEventListener('install', event => {
@@ -17,17 +18,19 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
+                console.log('Archivos del taller guardados en caché.');
                 return cache.addAll(urlsToCache);
             })
     );
 });
 
+// Fase de activación: Limpia la memoria antigua
 self.addEventListener('activate', event => {
-    // Esta fase borra la caché antigua (v1) para que no interfiera
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
+                    // Borra cualquier caché que no sea 'gametria32-v3'
                     if (cacheName !== CACHE_NAME) {
                         console.log('Borrando caché antigua:', cacheName);
                         return caches.delete(cacheName);
@@ -42,6 +45,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
             .then(response => {
+                // Si el archivo está en caché, lo devuelve. Si no, lo descarga.
                 return response || fetch(event.request);
             })
     );
