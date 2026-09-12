@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gametria 32 | Calculadora Esotérica</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Color de la barra de estado en móviles (Tonos oscuros del dragón) -->
+    <meta name="theme-color" content="#121212">
+
+    <!-- Icono de la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+
+    <!-- Conexión a la hoja de estilos -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <!-- Descomenta la siguiente línea si quieres mostrar tu logo del dragón en la pantalla principal -->
+            <!-- <img src="icons/icon-192x192.png" alt="Logo Gametria 32" class="logo"> -->
+            <h1>Gametria 32</h1>
+            <p>Descifra la arquitectura numérica de las palabras</p>
+        </header>
+
+        <section class="input-section">
+            <input type="text" id="palabraInput" placeholder="Escribe una palabra o frase..." autocomplete="off" autofocus>
+        </section>
+
+        <section class="resultados-grid">
+            <div class="card">
+                <h2>Simple (27 Letras)</h2>
+                <div id="resSimple" class="numero">0</div>
+                <p class="descripcion-card">Frecuencia base directa</p>
+            </div>
+            
+            <div class="card">
+                <h2>Pitagórica</h2>
+                <div id="resPitagorica" class="numero">0</div>
+                <p class="descripcion-card">Reducción por letra (1-9)</p>
+            </div>
+            
+            <div class="card">
+                <h2>Reducción Final</h2>
+                <div id="resMaestro" class="numero">0</div>
+                <p class="descripcion-card">Número de destino / Maestro</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Enlace al motor lógico (el cerebro de la app) -->
+    <script src="js/motor.js"></script>
+
+    <!-- Registro del Service Worker para capacidad Offline -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registrado con éxito en el Taller.'))
+                    .catch(err => console.error('Fallo en el registro del Service Worker.', err));
+            });
+        }
+    </script>
+</body>
+</html>
