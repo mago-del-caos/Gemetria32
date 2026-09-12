@@ -20,7 +20,7 @@ const valoresPitagoricos = {
 // FUNCIONES DE PROCESAMIENTO
 // ==========================================
 
-// Función para quitar acentos pero proteger nuestra 'ñ'
+// Función para quitar acentos pero proteger la 'ñ'
 function limpiarTexto(texto) {
     return texto.toLowerCase()
         .replace(/[áäâà]/g, 'a')
@@ -31,7 +31,7 @@ function limpiarTexto(texto) {
         .replace(/[^a-zñ]/g, ''); // Elimina espacios, números y símbolos, dejando solo las letras
 }
 
-// Función para la Reducción Final (Respetando los Números Maestros del constructor)
+// Función para la Reducción Final (Respetando los Números Maestros)
 function reducirNumero(numero) {
     if (numero === 0) return 0;
 
@@ -81,9 +81,7 @@ inputPalabra.addEventListener('input', (e) => {
         sumaPitagorica += valoresPitagoricos[letra] || 0;
     }
 
-    // Para el número destino/maestro, la regla esotérica suele basarse 
-    // en reducir la suma pitagórica (o la suma total de la fecha/palabra).
-    // Aquí reducimos el valor pitagórico:
+    // Reducimos el valor pitagórico para obtener el número maestro o de destino
     let numeroMaestro = reducirNumero(sumaPitagorica);
     
     // Si el input está vacío, devolvemos a cero
