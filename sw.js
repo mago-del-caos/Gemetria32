@@ -1,13 +1,13 @@
-// Aumentamos a la versión 6 para obligar al sistema a borrar la caché antigua 'v5'
-const CACHE_NAME = 'gametria32-v6';
+// Aumentamos a la versión 6 para obligar al sistema a borrar la caché antigua 'v6'
+const CACHE_NAME = 'gametria32-v7';
 
 // Todos los archivos estáticos en la raíz con sus nuevos nombres seguros y versionados
 const urlsToCache = [
     './?v=5',
-    './index.html?v=6',
-    './style.css?v=6',
-    './motor.js?v=6',
-    './manifest.json?v=6',
+    './index.html?v=7',
+    './style.css?v=7',
+    './motor.js?v=7',
+    './manifest.json?v=7',
     './Logo.png',
     './Logo1png'
 ];
