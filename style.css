@@ -1,0 +1,177 @@
+/* ==========================================
+   RESET BÁSICO Y VARIABLES
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #121212; /* Fondo oscuro principal */
+    color: #e0e0e0;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ========================================== */
+.container {
+    width: 100%;
+    max-width: 800px;
+    background: #1e1e1e; /* Gris muy oscuro para contraste */
+    border-radius: 12px;
+    padding: 40px;
+    /* Sombra oscura con un ligero resplandor morado del dragón */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(139, 92, 246, 0.05); 
+    border-top: 3px solid #d4af37; /* Acento dorado */
+    text-align: center;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #d4af37; /* Dorado masónico */
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+header p {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+}
+
+/* ==========================================
+   ÁREA DE ENTRADA (INPUT)
+   ========================================== */
+.input-section {
+    margin-bottom: 40px;
+}
+
+#palabraInput {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.5rem;
+    background-color: #2a2a2a;
+    border: 2px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    text-align: center;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* Efecto al teclear: se ilumina con la energía del dragón morado */
+#palabraInput:focus {
+    border-color: #8b5cf6; 
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+#palabraInput::placeholder {
+    color: #666;
+}
+
+/* ==========================================
+   TARJETAS DE RESULTADOS
+   ========================================== */
+.resultados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #252525;
+    padding: 25px 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #d4af37;
+}
+
+/* Barra superior de las tarjetas que aparece al pasar el mouse (Morado a Dorado) */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #8b5cf6, #d4af37);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card h2 {
+    font-size: 1.1rem;
+    color: #a0a0a0;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card .numero {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #d4af37;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+}
+
+.card .descripcion-card {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* ==========================================
+   IMAGEN DEL LOGO (Opcional en la interfaz)
+   ========================================== */
+.logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* ==========================================
+   RESPONSIVIDAD (MÓVILES)
+   ========================================== */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        border-radius: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    #palabraInput {
+        font-size: 1.2rem;
+    }
+}
