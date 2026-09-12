@@ -1,33 +1,47 @@
-const CACHE_NAME = 'gametria32-v1';
+// Aumentamos a la versión 2 para obligar al sistema a borrar el error anterior
+const CACHE_NAME = 'gametria32-v2';
 
-// Todos los archivos de nuestra arquitectura plana
 const urlsToCache = [
     './',
     './index.html',
     './style.css',
     './motor.js',
     './manifest.json',
-    './icon-192x192.png',
-    './icon-512x512.png'
+    './logo192.png',
+    './logo512.png'
 ];
 
-// Fase de Instalación: El constructor guarda los planos en la memoria
 self.addEventListener('install', event => {
+    // Forza la instalación inmediata del nuevo Service Worker
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Archivos del taller guardados en caché correctamente.');
                 return cache.addAll(urlsToCache);
             })
     );
 });
 
-// Fase de Intercepción (Fetch): Si no hay internet, saca los archivos de la caché
+self.addEventListener('activate', event => {
+    // Esta fase borra la caché antigua (v1) para que no interfiera
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheName !== CACHE_NAME) {
+                        console.log('Borrando caché antigua:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
+});
+
 self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
             .then(response => {
-                // Devuelve el archivo en caché, si no existe, lo busca en la red
                 return response || fetch(event.request);
             })
     );
