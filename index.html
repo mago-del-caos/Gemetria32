@@ -5,16 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gametria 32 | Calculadora Esotérica</title>
 
+    <!-- PWA Manifest - Asegúrate de renombrar manifest.js a manifest.json -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0a0514"> <!-- Morado ultra oscuro -->
+    
+    <!-- Color de la barra de estado -->
+    <meta name="theme-color" content="#121212">
+
+    <!-- Icono de la pestaña del navegador -->
     <link rel="icon" type="image/png" href="icon-192x192.png">
+
+    <!-- Conexión a la hoja de estilos en la raíz -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="ambient-glow"></div> <!-- Efecto de luz de fondo -->
-    
     <main class="container">
         <header>
+            <!-- Contenedor del Logo: Usando la imagen existente -->
             <div class="logo-container">
                 <img src="icon-192x192.png" alt="Dragón Morado Gametria 32" class="logo">
             </div>
@@ -56,7 +62,10 @@
         </section>
     </main>
 
+    <!-- Enlace al motor lógico -->
     <script src="motor.js"></script>
+
+    <!-- Registro del Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
