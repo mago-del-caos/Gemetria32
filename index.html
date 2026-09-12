@@ -3,69 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gametria 32 | Calculadora Esotérica</title>
+    <title>Gametria 32 | Análisis Numérico</title>
 
-    <!-- PWA Manifest - Asegúrate de que el archivo se llame manifest.json -->
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Color de la barra de estado -->
-    <meta name="theme-color" content="#121212">
-
-    <!-- Icono de la pestaña del navegador -->
-    <link rel="icon" type="image/png" href="icon-192x192.png">
-
-    <!-- Conexión a la hoja de estilos en la raíz -->
+    <meta name="theme-color" content="#0a0514">
+    <!-- Ruta actualizada al nuevo nombre seguro -->
+    <link rel="icon" type="image/png" href="logo192.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="ambient-glow"></div>
+    
     <main class="container">
         <header>
-            <!-- Contenedor del Logo: Usando la imagen que sí carga -->
             <div class="logo-container">
-                <img src="icon-192x192.png" alt="Dragón Morado Gametria 32" class="logo">
+                <!-- Ruta actualizada al nuevo nombre seguro -->
+                <img src="logo192.png" alt="Emblema Gametria 32" class="logo">
             </div>
-            <h1>Gametria 32</h1>
-            <p>Descifra la arquitectura numérica oculta</p>
+            <h1>GAMETRIA 32</h1>
+            <p>Análisis Numérico y Geometría del Verbo</p>
         </header>
 
         <section class="input-section">
-            <input type="text" id="palabraInput" placeholder="Ingresa tu palabra aquí..." autocomplete="off" autofocus>
+            <input type="text" id="palabraInput" placeholder="Introduzca el término a analizar..." autocomplete="off" autofocus>
         </section>
 
         <section class="resultados-grid">
             <div class="card">
                 <div class="card-header">
-                    <h2>Simple</h2>
+                    <h2>Valor Simple</h2>
                     <span class="badge">27</span>
                 </div>
                 <div id="resSimple" class="numero">0</div>
-                <p class="descripcion-card">Frecuencia base</p>
+                <p class="descripcion-card">Cálculo Directo</p>
             </div>
             
             <div class="card">
                 <div class="card-header">
-                    <h2>Pitagórica</h2>
+                    <h2>Valor Pitagórico</h2>
                     <span class="badge">1-9</span>
                 </div>
                 <div id="resPitagorica" class="numero">0</div>
-                <p class="descripcion-card">Reducción por letra</p>
+                <p class="descripcion-card">Reducción Base</p>
             </div>
             
             <div class="card maestro-card">
                 <div class="card-header">
-                    <h2>Destino</h2>
-                    <span class="badge maestro-badge">★</span>
+                    <h2>Síntesis Numérica</h2>
+                    <span class="badge maestro-badge">M</span>
                 </div>
                 <div id="resMaestro" class="numero">0</div>
-                <p class="descripcion-card">Número Maestro</p>
+                <p class="descripcion-card">Arquetipo Maestro</p>
             </div>
         </section>
     </main>
 
-    <!-- Enlace al motor lógico -->
     <script src="motor.js"></script>
-
-    <!-- Registro del Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
