@@ -1,22 +1,96 @@
 /* ==========================================
-   RESET BÁSICO Y VARIABLES
+   VARIABLES Y RESET
    ========================================== */
+:root {
+    /* Fondo: Morado Violeta Profundo (Más profundo y violeta que antes) */
+    --bg-dark: #1e112a; 
+    /* Cristal morado claro: Translucidez ajustada para el nuevo fondo */
+    --card-bg: rgba(30, 17, 42, 0.6); 
+    --gold: #d4af37; /* Dorado masónico base */
+    --gold-bright: #ffd700; /* Dorado iluminado */
+    --purple-glow: #9d4edd; /* Resplandor base del dragón */
+    --text-main: #f0e6ff;
+    --text-muted: #a392b8;
+    
+    /* Efecto de Ascuas */
+    --ember: #ff7f00; /* Naranja ascuas */
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #121212; /* Fondo oscuro principal */
-    color: #e0e0e0;
-    line-height: 1.6;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Efecto de luz mística en el fondo - Más vibrante */
+.ambient-glow {
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(178, 101, 232, 0.15) 0%, rgba(30, 17, 42, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ==========================================
+   EFECTO DE ASCUAS (PARTÍCULAS)
+   ========================================== */
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Detrás del contenido, delante del fondo base */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.ember {
+    position: absolute;
+    background-color: var(--ember);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 127, 0, 0.6), 0 0 20px rgba(255, 127, 0, 0.4);
+    animation: emberRise ease-in-out infinite, emberGlow ease-in-out infinite;
+    will-change: transform, opacity, box-shadow;
+}
+
+@keyframes emberRise {
+    0% {
+        transform: translateY(10%) scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-110%) scale(0.6);
+        opacity: 0;
+    }
+}
+
+@keyframes emberGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 127, 0, 0.6), 0 0 20px rgba(255, 127, 0, 0.4);
+        opacity: 0.8;
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(255, 127, 0, 0.8), 0 0 30px rgba(255, 127, 0, 0.6);
+        opacity: 0.3;
+    }
 }
 
 /* ==========================================
@@ -24,154 +98,187 @@ body {
    ========================================== */
 .container {
     width: 100%;
-    max-width: 800px;
-    background: #1e1e1e; /* Gris muy oscuro para contraste */
-    border-radius: 12px;
-    padding: 40px;
-    /* Sombra oscura con un ligero resplandor morado del dragón */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(139, 92, 246, 0.05); 
-    border-top: 3px solid #d4af37; /* Acento dorado */
-    text-align: center;
-}
-
-header {
-    margin-bottom: 30px;
-}
-
-header h1 {
-    color: #d4af37; /* Dorado masónico */
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-header p {
-    color: #a0a0a0;
-    font-size: 1.1rem;
+    max-width: 850px;
+    z-index: 1;
 }
 
 /* ==========================================
-   ÁREA DE ENTRADA (INPUT)
+   HEADER Y LOGO
+   ========================================== */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+    display: inline-block;
+    position: relative;
+}
+
+/* El círculo de resplandor que rodea a tu dragón */
+.logo-container::after {
+    content: '';
+    position: absolute;
+    top: -5px; left: -5px; right: -5px; bottom: -5px;
+    border-radius: 25%;
+    background: linear-gradient(45deg, var(--gold), #b265e8);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.7;
+}
+
+.logo {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 22%;
+    border: 2px solid var(--gold);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+}
+
+header h1 {
+    color: var(--gold-bright);
+    font-size: 2.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    margin-bottom: 5px;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* ==========================================
+   INPUT PRINCIPAL
    ========================================== */
 .input-section {
     margin-bottom: 40px;
+    position: relative;
 }
 
 #palabraInput {
     width: 100%;
-    padding: 15px 20px;
-    font-size: 1.5rem;
-    background-color: #2a2a2a;
-    border: 2px solid #333;
-    border-radius: 8px;
-    color: #fff;
+    padding: 20px 25px;
+    font-size: 1.8rem;
+    background: rgba(15, 8, 30, 0.8);
+    border: 1px solid rgba(178, 101, 232, 0.3);
+    border-radius: 15px;
+    color: var(--gold-bright);
     text-align: center;
-    transition: all 0.3s ease;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.4s ease;
     outline: none;
-}
-
-/* Efecto al teclear: se ilumina con la energía del dragón morado */
-#palabraInput:focus {
-    border-color: #8b5cf6; 
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    text-transform: uppercase;
 }
 
 #palabraInput::placeholder {
-    color: #666;
+    color: rgba(163, 146, 184, 0.4);
+    text-transform: none;
+}
+
+#palabraInput:focus {
+    border-color: var(--gold);
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.5), 0 0 25px rgba(178, 101, 232, 0.4);
+    transform: translateY(-2px);
 }
 
 /* ==========================================
-   TARJETAS DE RESULTADOS
+   TARJETAS (GLASSMORPHISM)
    ========================================== */
 .resultados-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
 }
 
 .card {
-    background: #252525;
-    padding: 25px 20px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(178, 101, 232, 0.2);
+    border-top: 2px solid #b265e8;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    border-color: #d4af37;
+    transform: translateY(-8px);
+    border-color: var(--gold);
+    border-top-color: var(--gold-bright);
+    box-shadow: 0 15px 40px rgba(178, 101, 232, 0.2);
 }
 
-/* Barra superior de las tarjetas que aparece al pasar el mouse (Morado a Dorado) */
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #8b5cf6, #d4af37);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+/* Tarjeta especial del Arquetipo Maestro */
+.maestro-card {
+    border-top: 2px solid var(--gold);
+    background: linear-gradient(180deg, rgba(30, 17, 42, 0.7) 0%, rgba(15, 8, 30, 0.8) 100%);
 }
 
-.card:hover::before {
-    opacity: 1;
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 10px;
 }
 
 .card h2 {
     font-size: 1.1rem;
-    color: #a0a0a0;
-    margin-bottom: 15px;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+}
+
+.badge {
+    background: rgba(178, 101, 232, 0.2);
+    color: #b265e8;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.maestro-badge {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--gold-bright);
 }
 
 .card .numero {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #d4af37;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--gold-bright);
+    margin-bottom: 5px;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
 
 .card .descripcion-card {
-    font-size: 0.85rem;
-    color: #777;
+    font-size: 0.9rem;
+    color: #887b99;
 }
 
 /* ==========================================
-   IMAGEN DEL LOGO (Opcional en la interfaz)
-   ========================================== */
-.logo {
-    width: 100px;
-    height: 100px;
-    border-radius: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-/* ==========================================
-   RESPONSIVIDAD (MÓVILES)
+   RESPONSIVIDAD
    ========================================== */
 @media (max-width: 600px) {
-    .container {
-        padding: 20px;
-        border-radius: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    .logo {
+        width: 100px;
+        height: 100px;
     }
     
     header h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
     
     #palabraInput {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        padding: 15px;
     }
 }
