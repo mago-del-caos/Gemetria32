@@ -1,11 +1,11 @@
-const CACHE_NAME = 'gametria32-v6';
+const CACHE_NAME = 'gametria32-v7';
 
 const urlsToCache = [
-    './?v=6',
-    './index.html?v=6',
-    './style.css?v=6',
-    './motor.js?v=6',
-    './manifest.json?v=6',
+    './?v=7',
+    './index.html?v=7',
+    './style.css?v=7',
+    './motor.js?v=7',
+    './manifest.json?v=7',
     './Logo.png',
     './Logo1png'
 ];
@@ -14,7 +14,7 @@ self.addEventListener('install', event => {
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
-            console.log('Tetragrama Comparativo guardado en caché (v6).');
+            console.log('Grimorio Digital guardado en caché (v7).');
             return cache.addAll(urlsToCache);
         })
     );
@@ -26,7 +26,7 @@ self.addEventListener('activate', event => {
             return Promise.all(
                 cacheNames.map(cacheName => {
                     if (cacheName !== CACHE_NAME) {
-                        console.log('Borrando caché antigua:', cacheName);
+                        console.log('Borrando caché antigua (v7):', cacheName);
                         return caches.delete(cacheName);
                     }
                 })
