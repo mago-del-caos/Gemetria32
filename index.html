@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEMATRÍA 32 | Mesa de Trazado (v7)</title>
+    <title>GEMATRÍA 32 | Mesa de Trazado (v8)</title>
 
-    <link rel="manifest" href="manifest.json?v=7">
+    <link rel="manifest" href="manifest.json?v=8">
     <meta name="theme-color" content="#1e112a">
-    <link rel="icon" type="image/png" href="Logo.png?v=7">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="icon" type="image/png" href="Logo.png?v=8">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
     <div class="ambient-glow"></div>
@@ -17,12 +17,13 @@
     <main class="container-fluid">
         <header>
             <div class="logo-container">
-                <img src="Logo.png?v=7" alt="Emblema GEMATRÍA 32" class="logo">
+                <img src="Logo.png?v=8" alt="Emblema GEMATRÍA 32" class="logo">
             </div>
             <h1>GEMATRÍA 32</h1>
             <p>Análisis Numérico y Geometría del Verbo</p>
         </header>
 
+        <!-- Selector del Tetragrama -->
         <div class="control-panel">
             <span class="control-label">Pilares de Análisis:</span>
             <button class="btn-control active" onclick="cambiarColumnas(1)">1</button>
@@ -33,7 +34,7 @@
 
         <div id="paneles-container" class="paneles-grid layout-1">
             
-            <!-- PANEL 1 -->
+            <!-- PILAR 1 -->
             <div class="panel" id="panel-1">
                 <input type="text" class="palabra-input" id="input-1" placeholder="Primer término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -57,7 +58,7 @@
                 </div>
             </div>
 
-            <!-- PANEL 2 -->
+            <!-- PILAR 2 -->
             <div class="panel" id="panel-2" style="display: none;">
                 <input type="text" class="palabra-input" id="input-2" placeholder="Segundo término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -81,7 +82,7 @@
                 </div>
             </div>
 
-            <!-- PANEL 3 -->
+            <!-- PILAR 3 -->
             <div class="panel" id="panel-3" style="display: none;">
                 <input type="text" class="palabra-input" id="input-3" placeholder="Tercer término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -105,7 +106,7 @@
                 </div>
             </div>
 
-            <!-- PANEL 4 -->
+            <!-- PILAR 4 -->
             <div class="panel" id="panel-4" style="display: none;">
                 <input type="text" class="palabra-input" id="input-4" placeholder="Cuarto término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -132,14 +133,17 @@
         </div>
     </main>
 
-    <script src="motor.js?v=7"></script>
+    <script src="motor.js?v=8"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=7').catch(err => console.error('SW Error.', err));
+                navigator.serviceWorker.register('sw.js?v=8')
+                    .then(() => console.log('SW registrado.'))
+                    .catch(err => console.error('Fallo en el SW.', err));
             });
         }
 
+        // Fuego y Ascuas
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('emberContainer');
             if (!container) return;
