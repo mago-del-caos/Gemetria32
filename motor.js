@@ -13,6 +13,9 @@ const valoresPitagoricos = {
     'r': 1, 's': 2, 't': 3, 'u': 4, 'v': 5, 'w': 6, 'x': 7, 'y': 8, 'z': 9
 };
 
+// ==========================================
+// FUNCIONES DE PROCESAMIENTO
+// ==========================================
 function limpiarTexto(texto) {
     return texto.toLowerCase().replace(/[áäâà]/g, 'a').replace(/[éëêè]/g, 'e').replace(/[íïîì]/g, 'i').replace(/[óöôò]/g, 'o').replace(/[úüûù]/g, 'u').replace(/[^a-zñ]/g, '');
 }
@@ -50,11 +53,13 @@ function dibujarGeometria(numero, contenedorId) {
     let lineas = '';
     for (let i = 0; i < puntos.length; i++) {
         for (let j = i + 1; j < puntos.length; j++) {
-            lineas += `<line x1="${puntos[i].x}" y1="${puntos[i].y}" x2="${puntos[j].x}" y2="${puntos[j].y}" stroke="var(--gold-bright)" stroke-width="0.5" opacity="0.4" />`;
+            lineas += `<line x1="${puntos[i].x}" y1="${puntos[i].y}" x2="${puntos[j].x}" y2="${puntos[j].y}" stroke="#ffd700" stroke-width="0.5" opacity="0.4" />`;
         }
     }
-    let poligono = `<polygon points="${puntos.map(p => `${p.x},${p.y}`).join(' ')}" stroke="var(--gold)" stroke-width="1.5" fill="rgba(212, 175, 55, 0.05)" />`;
-    contenedor.innerHTML = `<svg viewBox="0 0 100 100" class="figura-sagrada">${lineas}${poligono}</svg>`;
+    let poligono = `<polygon points="${puntos.map(p => `${p.x},${p.y}`).join(' ')}" stroke="#d4af37" stroke-width="1.5" fill="rgba(212, 175, 55, 0.05)" />`;
+    
+    // El atributo xmlns es vital para que la imagen se pueda descargar luego
+    contenedor.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="figura-sagrada">${lineas}${poligono}</svg>`;
 }
 
 // ==========================================
@@ -84,11 +89,11 @@ function dibujarSigilo(palabra, contenedorId) {
         }
     }
 
-    let sigiloSVG = `<svg viewBox="0 0 100 100" class="figura-sigilo">`;
+    let sigiloSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="figura-sigilo">`;
     sigiloSVG += `<circle cx="50" cy="50" r="45" stroke="rgba(178, 101, 232, 0.2)" stroke-width="0.5" fill="none" />`;
     if (puntosCamino.length > 0) {
-        sigiloSVG += `<path d="${pathD}" stroke="var(--gold-bright)" stroke-width="1.5" fill="none" stroke-linejoin="round" />`;
-        sigiloSVG += `<circle cx="${puntosCamino[0].x}" cy="${puntosCamino[0].y}" r="2.5" fill="var(--gold)" />`;
+        sigiloSVG += `<path d="${pathD}" stroke="#ffd700" stroke-width="1.5" fill="none" stroke-linejoin="round" />`;
+        sigiloSVG += `<circle cx="${puntosCamino[0].x}" cy="${puntosCamino[0].y}" r="2.5" fill="#d4af37" />`;
         const last = puntosCamino[puntosCamino.length - 1];
         sigiloSVG += `<circle cx="${last.x}" cy="${last.y}" r="1" fill="#fff" />`;
     }
@@ -107,51 +112,48 @@ function dibujarRuedaBruno(simple, pitagorica, sintesis, contenedorId) {
     const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZÑ";
     const numeros = "123456789";
 
-    // Función para crear textos curvos distribuidos en los anillos
-    function crearAnilloTexto(caracteres, radio, clase) {
+    function crearAnilloTexto(caracteres, radio, color, negrita, tamañoBase) {
         let elementos = '';
         const total = caracteres.length;
         const anguloPaso = 360 / total;
+        const fw = negrita ? 'bold' : 'normal';
         for(let i = 0; i < total; i++) {
             const rot = i * anguloPaso;
-            elementos += `<text x="50" y="${50 - radio}" transform="rotate(${rot}, 50, 50)" text-anchor="middle" font-size="${radio > 20 ? 3.5 : 4}" class="${clase}">${caracteres[i]}</text>`;
+            elementos += `<text x="50" y="${50 - radio}" transform="rotate(${rot}, 50, 50)" text-anchor="middle" font-family="Courier New, monospace" font-size="${tamañoBase}" font-weight="${fw}" fill="${color}">${caracteres[i]}</text>`;
         }
         return elementos;
     }
 
-    // Cálculos de engranajes: Dinámica de rotación
-    const rotExt = simple * (360 / 27); // Gira basada en el Simple
-    const rotMed = pitagorica * (360 / 27); // Gira invertida basada en Pitagórica
-    const rotInt = sintesis * (360 / 9); // Gira basada en Síntesis Maestro
+    const rotExt = simple * (360 / 27); 
+    const rotMed = pitagorica * (360 / 27); 
+    const rotInt = sintesis * (360 / 9); 
 
-    let svg = `<svg viewBox="0 0 100 100" class="figura-bruno">`;
+    let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="figura-bruno">`;
     
-    // El Eje Hermético (Indicador del Cenit - 12 o'clock)
-    svg += `<polygon points="50,2 53,8 47,8" fill="var(--ember)" />`;
+    // Eje Hermético
+    svg += `<polygon points="50,2 53,8 47,8" fill="#ff7f00" />`;
     svg += `<line x1="50" y1="8" x2="50" y2="50" stroke="rgba(255,127,0,0.4)" stroke-width="0.5" stroke-dasharray="1,2" />`;
 
-    // 1. Rueda Exterior
+    // 1. Rueda Exterior (Gematría Simple)
     svg += `<g style="transform: rotate(${rotExt}deg); transform-origin: 50px 50px; transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);">`;
-    svg += `<circle cx="50" cy="50" r="45" fill="rgba(30,17,42,0.8)" stroke="var(--purple-glow)" stroke-width="0.5"/>`;
-    svg += crearAnilloTexto(alfabeto, 41, 'texto-rueda-ext');
+    svg += `<circle cx="50" cy="50" r="45" fill="rgba(30,17,42,0.8)" stroke="#9d4edd" stroke-width="0.5"/>`;
+    svg += crearAnilloTexto(alfabeto, 41, '#a392b8', false, 4);
     svg += `</g>`;
 
-    // 2. Rueda Media
+    // 2. Rueda Media (Gematría Pitagórica)
     svg += `<g style="transform: rotate(-${rotMed}deg); transform-origin: 50px 50px; transition: transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);">`;
-    svg += `<circle cx="50" cy="50" r="34" fill="rgba(20,10,35,0.9)" stroke="var(--gold)" stroke-width="0.5"/>`;
-    svg += crearAnilloTexto(alfabeto, 30, 'texto-rueda-med');
+    svg += `<circle cx="50" cy="50" r="34" fill="rgba(20,10,35,0.9)" stroke="#d4af37" stroke-width="0.5"/>`;
+    svg += crearAnilloTexto(alfabeto, 30, '#d4af37', true, 4);
     svg += `</g>`;
 
-    // 3. Rueda Interior
+    // 3. Rueda Interior (Síntesis Maestro)
     svg += `<g style="transform: rotate(${rotInt}deg); transform-origin: 50px 50px; transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);">`;
-    svg += `<circle cx="50" cy="50" r="23" fill="rgba(10,5,20,1)" stroke="var(--gold-bright)" stroke-width="1"/>`;
-    svg += crearAnilloTexto(numeros, 18, 'texto-rueda-int');
+    svg += `<circle cx="50" cy="50" r="23" fill="rgba(10,5,20,1)" stroke="#ffd700" stroke-width="1"/>`;
+    svg += crearAnilloTexto(numeros, 18, '#ffd700', true, 3.5);
     svg += `</g>`;
 
-    // Eje Central
-    svg += `<circle cx="50" cy="50" r="4" fill="var(--gold-bright)"/>`;
+    svg += `<circle cx="50" cy="50" r="4" fill="#ffd700"/>`;
     svg += `<circle cx="50" cy="50" r="1.5" fill="#000"/>`;
-
     svg += `</svg>`;
     contenedor.innerHTML = svg;
 }
@@ -189,10 +191,68 @@ window.procesarInput = function(indice) {
         else if (fuenteSelect.value === 'simple') numeroGeometria = sumaSimple;
     }
 
-    // Ejecución simultánea de las 3 artes herméticas
     dibujarGeometria(numeroGeometria, `geometria-${indice}`);
     dibujarSigilo(textoLimpio, `sigilo-${indice}`);
     dibujarRuedaBruno(sumaSimple, sumaPitagorica, numeroSintesis, `bruno-${indice}`);
+}
+
+// ==========================================
+// NUEVO: FUNCIONES EXTRAS (PURGA Y EXTRACCIÓN)
+// ==========================================
+window.limpiarPilar = function(indice) {
+    const input = document.getElementById(`input-${indice}`);
+    if(input) {
+        input.value = '';
+        procesarInput(indice);
+    }
+}
+
+window.descargarArte = function(indice) {
+    const input = document.getElementById(`input-${indice}`);
+    let palabra = input && input.value.trim() !== '' ? limpiarTexto(input.value) : 'Vacio';
+    if (palabra === 'Vacio') {
+        alert('Por favor, ingresa una palabra primero.');
+        return;
+    }
+
+    const btn = document.querySelector(`#panel-${indice} .btn-visual`);
+    const estado = btn.getAttribute('data-estado') || 'geo';
+    
+    let contenedorId = ''; let sufijo = '';
+    if (estado === 'geo') { contenedorId = `geometria-${indice}`; sufijo = 'Geometria'; }
+    else if (estado === 'sig') { contenedorId = `sigilo-${indice}`; sufijo = 'Sigilo'; }
+    else if (estado === 'bru') { contenedorId = `bruno-${indice}`; sufijo = 'Rueda'; }
+
+    const contenedor = document.getElementById(contenedorId);
+    const svgElement = contenedor.querySelector('svg');
+    if (!svgElement) return;
+
+    // Proceso de serialización SVG a Lienzo Canvas (1000x1000px Alta Resolución)
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+    const canvas = document.createElement("canvas");
+    canvas.width = 1000;
+    canvas.height = 1000;
+    const ctx = canvas.getContext("2d");
+
+    // Fondo Oscuro del Taller
+    ctx.fillStyle = "#1e112a";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const img = new Image();
+    img.onload = function() {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const pngFile = canvas.toDataURL("image/png");
+        
+        // Disparo de descarga
+        const enlace = document.createElement("a");
+        enlace.download = `Gematria32_${palabra}_${sufijo}.png`;
+        enlace.href = pngFile;
+        enlace.click();
+    };
+    
+    // Codificación Base64 segura
+    const svg64 = btoa(unescape(encodeURIComponent(svgData)));
+    img.src = 'data:image/svg+xml;base64,' + svg64;
 }
 
 // Ciclador de Estados Visuales
@@ -205,22 +265,16 @@ window.ciclarArte = function(indice) {
     let estado = btn.getAttribute('data-estado') || 'geo';
 
     if (estado === 'geo') {
-        // Pasa a Sigilo
         geo.style.display = 'none'; sig.style.display = 'flex'; bru.style.display = 'none';
-        btn.setAttribute('data-estado', 'sig');
-        btn.textContent = 'Ver Rueda';
+        btn.setAttribute('data-estado', 'sig'); btn.textContent = 'Ver Rueda';
         btn.classList.add('active-sig'); btn.classList.remove('active-bru');
     } else if (estado === 'sig') {
-        // Pasa a Rueda de Bruno
         geo.style.display = 'none'; sig.style.display = 'none'; bru.style.display = 'flex';
-        btn.setAttribute('data-estado', 'bru');
-        btn.textContent = 'Ver Geometría';
+        btn.setAttribute('data-estado', 'bru'); btn.textContent = 'Ver Geometría';
         btn.classList.add('active-bru'); btn.classList.remove('active-sig');
     } else {
-        // Vuelve a Geometría
         geo.style.display = 'flex'; sig.style.display = 'none'; bru.style.display = 'none';
-        btn.setAttribute('data-estado', 'geo');
-        btn.textContent = 'Crear Sigilo';
+        btn.setAttribute('data-estado', 'geo'); btn.textContent = 'Crear Sigilo';
         btn.classList.remove('active-bru', 'active-sig');
     }
 }
