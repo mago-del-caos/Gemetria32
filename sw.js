@@ -1,15 +1,15 @@
 // ==========================================
-// SERVICE WORKER - CACHÉ V8
+// SERVICE WORKER - CACHÉ V9
 // ==========================================
-const CACHE_NAME = 'gametria32-v8';
+const CACHE_NAME = 'gametria32-v9';
 
-// El catálogo de archivos que conforman el templo, sellados con la versión 8
+// El catálogo de archivos que conforman el templo, sellados con la versión 9
 const urlsToCache = [
-    './?v=8',
-    './index.html?v=8',
-    './style.css?v=8',
-    './motor.js?v=8',
-    './manifest.json?v=8',
+    './?v=9',
+    './index.html?v=9',
+    './style.css?v=9',
+    './motor.js?v=9',
+    './manifest.json?v=9',
     './Logo.png',
     './Logo1png'
 ];
@@ -20,7 +20,7 @@ self.addEventListener('install', event => {
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
-            console.log('Mesa de Trazado guardada en caché (v8).');
+            console.log('Mesa de Trazado guardada en caché (v9).');
             return cache.addAll(urlsToCache);
         })
     );
@@ -32,7 +32,7 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
-                    // Si la caché no es la v8, se elimina del registro
+                    // Si la caché no es la v9, se elimina del registro
                     if (cacheName !== CACHE_NAME) {
                         console.log('Borrando caché antigua de Gematría:', cacheName);
                         return caches.delete(cacheName);
