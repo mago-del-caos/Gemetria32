@@ -1,329 +1,143 @@
 /* ==========================================
-   VARIABLES Y RESET BÁSICO
+   VARIABLES Y RESET
    ========================================== */
 :root {
-    /* Fondo: Morado Violeta Profundo */
     --bg-dark: #1e112a; 
-    /* Cristal morado claro: Translucidez para las tarjetas */
     --card-bg: rgba(30, 17, 42, 0.6); 
-    --gold: #d4af37; /* Dorado masónico base */
-    --gold-bright: #ffd700; /* Dorado iluminado para la geometría */
-    --purple-glow: #9d4edd; /* Resplandor base del emblema */
+    --gold: #d4af37; 
+    --gold-bright: #ffd700; 
+    --purple-glow: #9d4edd; 
     --text-main: #f0e6ff;
     --text-muted: #a392b8;
-    
-    /* Efecto de Ascuas */
-    --ember: #ff7f00; /* Naranja fuego */
+    --ember: #ff7f00; 
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 20px;
     position: relative;
     overflow-x: hidden;
 }
 
-/* Efecto de luz mística en el fondo */
 .ambient-glow {
-    position: fixed;
-    top: -20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(178, 101, 232, 0.15) 0%, rgba(30, 17, 42, 0) 70%);
-    z-index: -1;
-    pointer-events: none;
+    position: fixed; top: -20%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(178, 101, 232, 0.12) 0%, rgba(30, 17, 42, 0) 70%);
+    z-index: -1; pointer-events: none;
 }
 
 /* ==========================================
-   EFECTO DE ASCUAS (PARTÍCULAS)
+   PARTÍCULAS
    ========================================== */
 .particle-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Detrás del contenido */
-    pointer-events: none;
-    overflow: hidden;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none; overflow: hidden;
 }
-
 .ember {
-    position: absolute;
-    background-color: var(--ember);
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(255, 127, 0, 0.6), 0 0 20px rgba(255, 127, 0, 0.4);
+    position: absolute; background-color: var(--ember); border-radius: 50%;
     animation: emberRise ease-in-out infinite, emberGlow ease-in-out infinite;
-    will-change: transform, opacity, box-shadow;
 }
-
 @keyframes emberRise {
-    0% {
-        transform: translateY(10%) scale(1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-110%) scale(0.6);
-        opacity: 0;
-    }
+    0% { transform: translateY(10%) scale(1); opacity: 0.8; }
+    100% { transform: translateY(-110%) scale(0.6); opacity: 0; }
 }
-
 @keyframes emberGlow {
-    0%, 100% {
-        box-shadow: 0 0 10px rgba(255, 127, 0, 0.6), 0 0 20px rgba(255, 127, 0, 0.4);
-        opacity: 0.8;
-    }
-    50% {
-        box-shadow: 0 0 15px rgba(255, 127, 0, 0.8), 0 0 30px rgba(255, 127, 0, 0.6);
-        opacity: 0.3;
-    }
+    0%, 100% { box-shadow: 0 0 10px rgba(255, 127, 0, 0.6); opacity: 0.8; }
+    50% { box-shadow: 0 0 15px rgba(255, 127, 0, 0.8); opacity: 0.3; }
 }
 
 /* ==========================================
-   CONTENEDOR PRINCIPAL
+   CONTENEDOR GENERAL Y HEADER
    ========================================== */
-.container {
-    width: 100%;
-    max-width: 850px;
-    z-index: 1;
+.container-fluid {
+    width: 100%; max-width: 1600px; margin: 0 auto; z-index: 1;
 }
-
-/* ==========================================
-   HEADER Y EMBLEMA
-   ========================================== */
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.logo-container {
-    margin-bottom: 20px;
-    display: inline-block;
-    position: relative;
-}
-
-/* El círculo de resplandor que rodea al emblema */
+header { text-align: center; margin-bottom: 20px; }
+.logo-container { margin-bottom: 15px; position: relative; display: inline-block; }
 .logo-container::after {
-    content: '';
-    position: absolute;
-    top: -5px; left: -5px; right: -5px; bottom: -5px;
-    border-radius: 25%;
-    background: linear-gradient(45deg, var(--gold), #b265e8);
-    z-index: -1;
-    filter: blur(10px);
-    opacity: 0.7;
+    content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+    border-radius: 25%; background: linear-gradient(45deg, var(--gold), #b265e8);
+    z-index: -1; filter: blur(10px); opacity: 0.7;
 }
-
-.logo {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 22%;
-    border: 2px solid var(--gold);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
-}
-
-header h1 {
-    color: var(--gold-bright);
-    font-size: 2.5rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-    margin-bottom: 5px;
-}
-
-header p {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-}
+.logo { width: 90px; height: 90px; border-radius: 22%; border: 2px solid var(--gold); }
+header h1 { color: var(--gold-bright); font-size: 2rem; letter-spacing: 3px; margin-bottom: 5px; }
+header p { color: var(--text-muted); font-size: 1rem; }
 
 /* ==========================================
-   INPUT PRINCIPAL
+   CONTROL DE PANELES (TETRAGRAMA)
    ========================================== */
-.input-section {
-    margin-bottom: 25px;
-    position: relative;
+.control-panel {
+    display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 30px;
 }
-
-#palabraInput {
-    width: 100%;
-    padding: 18px 25px;
-    font-size: 1.6rem;
-    background: rgba(15, 8, 30, 0.8);
-    border: 1px solid rgba(178, 101, 232, 0.3);
-    border-radius: 12px;
-    color: var(--gold-bright);
-    text-align: center;
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3);
-    transition: all 0.4s ease;
-    outline: none;
-    text-transform: uppercase;
+.control-label { color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-right: 10px; }
+.btn-control {
+    background: var(--card-bg); border: 1px solid var(--purple-glow); color: var(--text-main);
+    padding: 8px 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-weight: bold;
 }
-
-#palabraInput::placeholder {
-    color: rgba(163, 146, 184, 0.4);
-    text-transform: none;
-}
-
-#palabraInput:focus {
-    border-color: var(--gold);
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.5), 0 0 25px rgba(178, 101, 232, 0.4);
-    transform: translateY(-2px);
+.btn-control:hover, .btn-control.active {
+    background: var(--purple-glow); color: #fff; border-color: var(--gold-bright);
+    box-shadow: 0 0 15px rgba(178, 101, 232, 0.6);
 }
 
 /* ==========================================
-   GEOMETRÍA SAGRADA 3D (MOTOR SVG)
+   GRID DINÁMICO DE PANELES
+   ========================================== */
+.paneles-grid { display: grid; gap: 20px; transition: all 0.3s; }
+.layout-1 { grid-template-columns: minmax(300px, 600px); justify-content: center; }
+.layout-2 { grid-template-columns: repeat(2, 1fr); }
+.layout-3 { grid-template-columns: repeat(3, 1fr); }
+.layout-4 { grid-template-columns: repeat(4, 1fr); }
+
+.panel {
+    background: rgba(15, 8, 30, 0.4); padding: 20px; border-radius: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.palabra-input {
+    width: 100%; padding: 15px; font-size: 1.4rem; background: rgba(15, 8, 30, 0.8);
+    border: 1px solid rgba(178, 101, 232, 0.3); border-radius: 10px;
+    color: var(--gold-bright); text-align: center; text-transform: uppercase; margin-bottom: 20px;
+}
+.palabra-input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 15px rgba(178, 101, 232, 0.4); }
+
+/* ==========================================
+   GEOMETRÍA Y TARJETAS INTERNAS
    ========================================== */
 .geometria-contenedor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 180px;
-    margin-bottom: 30px;
-    filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.4));
+    display: flex; justify-content: center; align-items: center; height: 160px; margin-bottom: 20px;
 }
-
-.figura-sagrada {
-    width: 160px;
-    height: 160px;
-    /* Animación mística de rotación volumétrica */
-    animation: rotacionMistica 20s linear infinite;
-    transform-style: preserve-3d;
-}
+.figura-sagrada { width: 140px; height: 140px; animation: rotacionMistica 20s linear infinite; transform-style: preserve-3d; }
 
 @keyframes rotacionMistica {
     0% { transform: rotateY(0deg) rotateZ(0deg) scale(0.9); }
-    50% { transform: rotateY(180deg) rotateZ(90deg) scale(1.1); filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.8)); }
+    50% { transform: rotateY(180deg) rotateZ(90deg) scale(1.1); filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.6)); }
     100% { transform: rotateY(360deg) rotateZ(360deg) scale(0.9); }
 }
 
-/* ==========================================
-   TARJETAS DE RESULTADOS (GLASSMORPHISM)
-   ========================================== */
-.resultados-grid {
-    display: grid;
-    /* Al haber 4 tarjetas, se organizan perfectamente en 2x2 en pantallas grandes */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+.resultados-panel {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
 }
-
 .card {
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(178, 101, 232, 0.2);
-    border-top: 2px solid #b265e8;
-    text-align: center;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: var(--card-bg); padding: 15px 10px; border-radius: 10px;
+    border: 1px solid rgba(178, 101, 232, 0.2); text-align: center; border-top: 2px solid #b265e8;
 }
+.maestro-card { border-top: 2px solid var(--gold); }
+.destino-card { border-top: 2px solid var(--purple-glow); }
 
-.card:hover {
-    transform: translateY(-6px);
-    border-color: var(--gold);
-    border-top-color: var(--gold-bright);
-    box-shadow: 0 15px 40px rgba(178, 101, 232, 0.2);
-}
-
-/* Tarjetas Especiales */
-.maestro-card {
-    border-top: 2px solid var(--gold);
-    background: linear-gradient(180deg, rgba(30, 17, 42, 0.7) 0%, rgba(15, 8, 30, 0.8) 100%);
-}
-
-.destino-card {
-    border-top: 2px solid var(--purple-glow);
-    background: linear-gradient(180deg, rgba(20, 10, 35, 0.7) 0%, rgba(10, 5, 20, 0.8) 100%);
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    padding-bottom: 8px;
-}
-
-.card h2 {
-    font-size: 1rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.badge {
-    background: rgba(178, 101, 232, 0.2);
-    color: #b265e8;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: bold;
-}
-
-.maestro-badge {
-    background: rgba(212, 175, 55, 0.2);
-    color: var(--gold-bright);
-}
-
-.card .numero {
-    font-size: 3.2rem;
-    font-weight: 800;
-    color: var(--gold-bright);
-    margin-bottom: 5px;
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-}
-
-.card .descripcion-card {
-    font-size: 0.85rem;
-    color: #887b99;
-}
+.card-header h2 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.card .numero { font-size: 2rem; font-weight: bold; color: var(--gold-bright); }
 
 /* ==========================================
-   RESPONSIVIDAD (MÓVILES)
+   RESPONSIVIDAD
    ========================================== */
-@media (max-width: 600px) {
-    .logo {
-        width: 100px;
-        height: 100px;
-    }
-    
-    header h1 {
-        font-size: 2rem;
-    }
-    
-    #palabraInput {
-        font-size: 1.3rem;
-        padding: 15px;
-    }
-    
-    .geometria-contenedor {
-        height: 140px;
-    }
-    
-    .figura-sagrada {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .card .numero {
-        font-size: 2.8rem;
-    }
+@media (max-width: 1200px) {
+    .layout-3, .layout-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    .layout-2, .layout-3, .layout-4 { grid-template-columns: 1fr; }
+    .control-panel { flex-wrap: wrap; }
 }
