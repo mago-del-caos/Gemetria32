@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEMATRÍA 32 | Análisis Comparativo (v6)</title>
+    <title>GEMATRÍA 32 | Mesa de Trazado (v7)</title>
 
-    <link rel="manifest" href="manifest.json?v=6">
+    <link rel="manifest" href="manifest.json?v=7">
     <meta name="theme-color" content="#1e112a">
-    <link rel="icon" type="image/png" href="Logo.png?v=6">
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="icon" type="image/png" href="Logo.png?v=7">
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
     <div class="ambient-glow"></div>
@@ -17,13 +17,12 @@
     <main class="container-fluid">
         <header>
             <div class="logo-container">
-                <img src="Logo.png?v=6" alt="Emblema GEMATRÍA 32" class="logo">
+                <img src="Logo.png?v=7" alt="Emblema GEMATRÍA 32" class="logo">
             </div>
             <h1>GEMATRÍA 32</h1>
             <p>Análisis Numérico y Geometría del Verbo</p>
         </header>
 
-        <!-- Selector de Columnas -->
         <div class="control-panel">
             <span class="control-label">Pilares de Análisis:</span>
             <button class="btn-control active" onclick="cambiarColumnas(1)">1</button>
@@ -32,13 +31,24 @@
             <button class="btn-control" onclick="cambiarColumnas(4)">4</button>
         </div>
 
-        <!-- Contenedor Dinámico de Paneles -->
         <div id="paneles-container" class="paneles-grid layout-1">
             
             <!-- PANEL 1 -->
             <div class="panel" id="panel-1">
                 <input type="text" class="palabra-input" id="input-1" placeholder="Primer término..." autocomplete="off">
-                <div id="geometria-1" class="geometria-contenedor"></div>
+                <div class="panel-toolbar">
+                    <select id="fuente-geo-1" class="geo-select" onchange="procesarInput(1)">
+                        <option value="sintesis">Base: Síntesis</option>
+                        <option value="destino">Base: Destino</option>
+                        <option value="pitagorica">Base: Pitagórica</option>
+                        <option value="simple">Base: Simple</option>
+                    </select>
+                    <button class="btn-sigilo" onclick="toggleSigilo(1)">Crear Sigilo</button>
+                </div>
+                <div class="visualizador-espacial">
+                    <div id="geometria-1" class="geometria-contenedor"></div>
+                    <div id="sigilo-1" class="sigilo-contenedor" style="display: none;"></div>
+                </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-1" class="numero">0</div></div>
                     <div class="card"><div class="card-header"><h2>Pitagórica</h2></div><div id="pitagorica-1" class="numero">0</div></div>
@@ -50,7 +60,19 @@
             <!-- PANEL 2 -->
             <div class="panel" id="panel-2" style="display: none;">
                 <input type="text" class="palabra-input" id="input-2" placeholder="Segundo término..." autocomplete="off">
-                <div id="geometria-2" class="geometria-contenedor"></div>
+                <div class="panel-toolbar">
+                    <select id="fuente-geo-2" class="geo-select" onchange="procesarInput(2)">
+                        <option value="sintesis">Base: Síntesis</option>
+                        <option value="destino">Base: Destino</option>
+                        <option value="pitagorica">Base: Pitagórica</option>
+                        <option value="simple">Base: Simple</option>
+                    </select>
+                    <button class="btn-sigilo" onclick="toggleSigilo(2)">Crear Sigilo</button>
+                </div>
+                <div class="visualizador-espacial">
+                    <div id="geometria-2" class="geometria-contenedor"></div>
+                    <div id="sigilo-2" class="sigilo-contenedor" style="display: none;"></div>
+                </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-2" class="numero">0</div></div>
                     <div class="card"><div class="card-header"><h2>Pitagórica</h2></div><div id="pitagorica-2" class="numero">0</div></div>
@@ -62,7 +84,19 @@
             <!-- PANEL 3 -->
             <div class="panel" id="panel-3" style="display: none;">
                 <input type="text" class="palabra-input" id="input-3" placeholder="Tercer término..." autocomplete="off">
-                <div id="geometria-3" class="geometria-contenedor"></div>
+                <div class="panel-toolbar">
+                    <select id="fuente-geo-3" class="geo-select" onchange="procesarInput(3)">
+                        <option value="sintesis">Base: Síntesis</option>
+                        <option value="destino">Base: Destino</option>
+                        <option value="pitagorica">Base: Pitagórica</option>
+                        <option value="simple">Base: Simple</option>
+                    </select>
+                    <button class="btn-sigilo" onclick="toggleSigilo(3)">Crear Sigilo</button>
+                </div>
+                <div class="visualizador-espacial">
+                    <div id="geometria-3" class="geometria-contenedor"></div>
+                    <div id="sigilo-3" class="sigilo-contenedor" style="display: none;"></div>
+                </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-3" class="numero">0</div></div>
                     <div class="card"><div class="card-header"><h2>Pitagórica</h2></div><div id="pitagorica-3" class="numero">0</div></div>
@@ -74,7 +108,19 @@
             <!-- PANEL 4 -->
             <div class="panel" id="panel-4" style="display: none;">
                 <input type="text" class="palabra-input" id="input-4" placeholder="Cuarto término..." autocomplete="off">
-                <div id="geometria-4" class="geometria-contenedor"></div>
+                <div class="panel-toolbar">
+                    <select id="fuente-geo-4" class="geo-select" onchange="procesarInput(4)">
+                        <option value="sintesis">Base: Síntesis</option>
+                        <option value="destino">Base: Destino</option>
+                        <option value="pitagorica">Base: Pitagórica</option>
+                        <option value="simple">Base: Simple</option>
+                    </select>
+                    <button class="btn-sigilo" onclick="toggleSigilo(4)">Crear Sigilo</button>
+                </div>
+                <div class="visualizador-espacial">
+                    <div id="geometria-4" class="geometria-contenedor"></div>
+                    <div id="sigilo-4" class="sigilo-contenedor" style="display: none;"></div>
+                </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-4" class="numero">0</div></div>
                     <div class="card"><div class="card-header"><h2>Pitagórica</h2></div><div id="pitagorica-4" class="numero">0</div></div>
@@ -86,15 +132,14 @@
         </div>
     </main>
 
-    <script src="motor.js?v=6"></script>
+    <script src="motor.js?v=7"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=6').catch(err => console.error('Fallo en el SW.', err));
+                navigator.serviceWorker.register('sw.js?v=7').catch(err => console.error('SW Error.', err));
             });
         }
 
-        // Ascuas
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('emberContainer');
             if (!container) return;
@@ -102,10 +147,8 @@
                 const ember = document.createElement('div');
                 ember.classList.add('ember');
                 const size = Math.random() * 6 + 3;
-                ember.style.width = `${size}px`;
-                ember.style.height = `${size}px`;
-                ember.style.left = `${Math.random() * 100}%`;
-                ember.style.top = `${Math.random() * 100}%`;
+                ember.style.width = `${size}px`; ember.style.height = `${size}px`;
+                ember.style.left = `${Math.random() * 100}%`; ember.style.top = `${Math.random() * 100}%`;
                 ember.style.animationDelay = `${Math.random() * 5}s`;
                 ember.style.animationDuration = `${Math.random() * 8 + 6}s`;
                 ember.style.opacity = Math.random() * 0.5 + 0.3;
