@@ -1,52 +1,188 @@
 /* ==========================================
-   BARRA DE HERRAMIENTAS Y SIGILOS (v7)
+   VARIABLES Y RESET (v8)
+   ========================================== */
+:root {
+    --bg-dark: #1e112a; 
+    --card-bg: rgba(30, 17, 42, 0.6); 
+    --gold: #d4af37; 
+    --gold-bright: #ffd700; 
+    --purple-glow: #9d4edd; 
+    --text-main: #f0e6ff;
+    --text-muted: #a392b8;
+    --ember: #ff7f00; 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ==========================================
+   FUEGO Y ASCUAS ASCENDENTES
+   ========================================== */
+.ambient-glow {
+    position: fixed; top: -20%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(178, 101, 232, 0.12) 0%, rgba(30, 17, 42, 0) 70%);
+    z-index: -1; pointer-events: none;
+}
+
+.particle-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none; overflow: hidden;
+}
+
+.ember {
+    position: absolute; background-color: var(--ember); border-radius: 50%;
+    animation: emberRise ease-in-out infinite, emberGlow ease-in-out infinite;
+}
+
+@keyframes emberRise {
+    0% { transform: translateY(10%) scale(1); opacity: 0.8; }
+    100% { transform: translateY(-110%) scale(0.6); opacity: 0; }
+}
+
+@keyframes emberGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(255, 127, 0, 0.6); opacity: 0.8; }
+    50% { box-shadow: 0 0 15px rgba(255, 127, 0, 0.8); opacity: 0.3; }
+}
+
+/* ==========================================
+   HEADER Y EMBLEMA
+   ========================================== */
+.container-fluid {
+    width: 100%; max-width: 1600px; margin: 0 auto; z-index: 1;
+}
+
+header { text-align: center; margin-bottom: 20px; }
+.logo-container { margin-bottom: 15px; position: relative; display: inline-block; }
+.logo-container::after {
+    content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+    border-radius: 25%; background: linear-gradient(45deg, var(--gold), #b265e8);
+    z-index: -1; filter: blur(10px); opacity: 0.7;
+}
+.logo { width: 90px; height: 90px; border-radius: 22%; border: 2px solid var(--gold); }
+header h1 { color: var(--gold-bright); font-size: 2rem; letter-spacing: 3px; margin-bottom: 5px; }
+header p { color: var(--text-muted); font-size: 1rem; }
+
+/* ==========================================
+   PANEL DE CONTROL (TETRAGRAMA)
+   ========================================== */
+.control-panel {
+    display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 30px;
+}
+.control-label { color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-right: 10px; }
+.btn-control {
+    background: var(--card-bg); border: 1px solid var(--purple-glow); color: var(--text-main);
+    padding: 8px 15px; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-weight: bold;
+}
+.btn-control:hover, .btn-control.active {
+    background: var(--purple-glow); color: #fff; border-color: var(--gold-bright);
+    box-shadow: 0 0 15px rgba(178, 101, 232, 0.6);
+}
+
+/* ==========================================
+   GRID DINÁMICO Y PANELES
+   ========================================== */
+.paneles-grid { display: grid; gap: 20px; transition: all 0.3s; }
+.layout-1 { grid-template-columns: minmax(300px, 600px); justify-content: center; }
+.layout-2 { grid-template-columns: repeat(2, 1fr); }
+.layout-3 { grid-template-columns: repeat(3, 1fr); }
+.layout-4 { grid-template-columns: repeat(4, 1fr); }
+
+.panel {
+    background: rgba(15, 8, 30, 0.4); padding: 20px; border-radius: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.2); display: flex; flex-direction: column;
+}
+
+.palabra-input {
+    width: 100%; padding: 15px; font-size: 1.4rem; background: rgba(15, 8, 30, 0.8);
+    border: 1px solid rgba(178, 101, 232, 0.3); border-radius: 10px;
+    color: var(--gold-bright); text-align: center; text-transform: uppercase; margin-bottom: 15px;
+}
+.palabra-input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 15px rgba(178, 101, 232, 0.4); }
+
+/* ==========================================
+   HERRAMIENTAS: SELECTOR Y BOTÓN SIGILO
    ========================================== */
 .panel-toolbar {
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 10px; margin-bottom: 20px;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 20px;
 }
 
 .geo-select {
     flex: 1; background: rgba(15, 8, 30, 0.8); border: 1px solid rgba(178, 101, 232, 0.4);
-    color: var(--gold-bright); padding: 10px; border-radius: 8px;
-    outline: none; cursor: pointer; text-transform: uppercase;
-    font-size: 0.75rem; font-weight: bold; text-align: center;
-    appearance: none; /* Limpia la flecha por defecto en algunos móviles */
+    color: var(--gold-bright); padding: 10px; border-radius: 8px; outline: none; cursor: pointer; 
+    text-transform: uppercase; font-size: 0.75rem; font-weight: bold; text-align: center;
 }
 
 .btn-sigilo {
     flex: 1; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
-    color: var(--gold-bright); padding: 10px; border-radius: 8px;
-    cursor: pointer; text-transform: uppercase; font-size: 0.75rem;
-    font-weight: bold; transition: all 0.3s ease;
+    color: var(--gold-bright); padding: 10px; border-radius: 8px; cursor: pointer; 
+    text-transform: uppercase; font-size: 0.75rem; font-weight: bold; transition: all 0.3s ease;
 }
 
 .btn-sigilo:hover, .btn-sigilo.active {
-    background: var(--gold); color: var(--bg-dark);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    background: var(--gold); color: var(--bg-dark); box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
 }
 
+/* ==========================================
+   ESPACIO DE VISUALIZACIÓN (GEOMETRÍA Y SIGILOS)
+   ========================================== */
 .visualizador-espacial {
-    position: relative; height: 180px; margin-bottom: 30px;
+    position: relative; height: 180px; margin-bottom: 30px; width: 100%;
 }
 
-/* Modificamos la geometría para que use 100% del contenedor padre */
 .geometria-contenedor, .sigilo-contenedor {
     display: flex; justify-content: center; align-items: center;
     width: 100%; height: 100%; position: absolute; top: 0; left: 0;
 }
 
-.sigilo-contenedor {
-    filter: drop-shadow(0 0 15px rgba(178, 101, 232, 0.6));
+/* Geometría 3D */
+.geometria-contenedor { filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.4)); }
+.figura-sagrada { width: 160px; height: 160px; animation: rotacionMistica 20s linear infinite; transform-style: preserve-3d; }
+
+@keyframes rotacionMistica {
+    0% { transform: rotateY(0deg) rotateZ(0deg) scale(0.9); }
+    50% { transform: rotateY(180deg) rotateZ(90deg) scale(1.1); filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.8)); }
+    100% { transform: rotateY(360deg) rotateZ(360deg) scale(0.9); }
 }
 
-.figura-sigilo {
-    width: 150px; height: 150px;
-    /* El sigilo es plano, por lo que emite un pulso energético en lugar de rotar 3D */
-    animation: pulsoMagico 4s ease-in-out infinite;
-}
+/* Sigilo 2D */
+.sigilo-contenedor { filter: drop-shadow(0 0 15px rgba(178, 101, 232, 0.6)); }
+.figura-sigilo { width: 150px; height: 150px; animation: pulsoMagico 4s ease-in-out infinite; }
 
 @keyframes pulsoMagico {
     0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(178, 101, 232, 0.4)); }
     50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(178, 101, 232, 0.8)); }
+}
+
+/* ==========================================
+   TARJETAS NUMÉRICAS (GLASSMORPHISM)
+   ========================================== */
+.resultados-panel { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: auto; }
+.card {
+    background: var(--card-bg); padding: 15px 10px; border-radius: 10px;
+    border: 1px solid rgba(178, 101, 232, 0.2); text-align: center; border-top: 2px solid #b265e8;
+}
+.maestro-card { border-top: 2px solid var(--gold); }
+.destino-card { border-top: 2px solid var(--purple-glow); }
+
+.card-header h2 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.card .numero { font-size: 2rem; font-weight: bold; color: var(--gold-bright); }
+
+/* ==========================================
+   RESPONSIVIDAD
+   ========================================== */
+@media (max-width: 1200px) {
+    .layout-3, .layout-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    .layout-2, .layout-3, .layout-4 { grid-template-columns: 1fr; }
+    .control-panel { flex-wrap: wrap; }
 }
