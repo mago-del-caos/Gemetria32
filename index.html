@@ -2,30 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Blindaje Móvil: Evita que el celular haga zoom al tocar el input y rompa el diseño -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GEMATRÍA 32 | Mesa de Trazado (v10)</title>
+    <title>GEMATRÍA 32 | Mesa de Trazado (v11)</title>
 
-    <link rel="manifest" href="manifest.json?v=10">
+    <link rel="manifest" href="manifest.json?v=11">
     <meta name="theme-color" content="#1e112a">
-    <link rel="icon" type="image/png" href="Logo.png?v=10">
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="icon" type="image/png" href="Logo.png?v=11">
+    <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
-    <!-- Fondo y Ascuas -->
+    <!-- Velo de Fondo y Ascuas -->
     <div class="ambient-glow"></div>
     <div class="particle-container" id="emberContainer"></div>
     
     <main class="container-fluid">
         <header>
             <div class="logo-container">
-                <img src="Logo.png?v=10" alt="Emblema GEMATRÍA 32" class="logo">
+                <img src="Logo.png?v=11" alt="Emblema GEMATRÍA 32" class="logo">
             </div>
             <h1>GEMATRÍA 32</h1>
-            <p>Geometría Sagrada, Sigilos y Ruedas de Memoria</p>
+            <p>Geometría, Sigilos y Cuadros Mágicos</p>
         </header>
 
-        <!-- Selector de Pilares (Tetragrama) -->
+        <!-- Selector del Tetragrama -->
         <div class="control-panel">
             <span class="control-label">Pilares de Análisis:</span>
             <button class="btn-control active" onclick="cambiarColumnas(1)">1</button>
@@ -34,18 +33,17 @@
             <button class="btn-control" onclick="cambiarColumnas(4)">4</button>
         </div>
 
-        <!-- Contenedor Dinámico -->
+        <!-- Bóveda Dinámica -->
         <div id="paneles-container" class="paneles-grid layout-1">
             
             <!-- ================= PILAR 1 ================= -->
             <div class="panel" id="panel-1">
-                <!-- Input con Botón de Purga -->
                 <div class="input-group">
-                    <input type="text" class="palabra-input" id="input-1" placeholder="Primer término..." autocomplete="off">
-                    <button class="btn-limpiar" onclick="limpiarPilar(1)" title="Limpiar Pilar">✖</button>
+                    <!-- spellcheck="false" evita que el teclado del móvil interfiera con la entrada -->
+                    <input type="text" class="palabra-input" id="input-1" placeholder="Primer término..." autocomplete="off" spellcheck="false">
+                    <button class="btn-limpiar" onclick="limpiarPilar(1)" title="Purgar Pilar">✖</button>
                 </div>
                 
-                <!-- Barra de Herramientas Extendida -->
                 <div class="panel-toolbar">
                     <select id="fuente-geo-1" class="geo-select" onchange="procesarInput(1)">
                         <option value="sintesis">Base: Síntesis</option>
@@ -54,18 +52,15 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(1)">Crear Sigilo</button>
-                    <!-- Botón para Descargar Símbolo -->
-                    <button class="btn-accion" onclick="descargarArte(1)" title="Descargar Símbolo">⬇</button>
+                    <button class="btn-accion" onclick="descargarArte(1)" title="Extraer Símbolo">⬇</button>
                 </div>
                 
-                <!-- Visualizadores -->
                 <div class="visualizador-espacial" id="visualizador-1">
                     <div id="geometria-1" class="arte-contenedor" style="display: flex;"></div>
                     <div id="sigilo-1" class="arte-contenedor" style="display: none;"></div>
                     <div id="bruno-1" class="arte-contenedor" style="display: none;"></div>
                 </div>
                 
-                <!-- Resultados -->
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-1" class="numero">0</div></div>
                     <div class="card"><div class="card-header"><h2>Pitagórica</h2></div><div id="pitagorica-1" class="numero">0</div></div>
@@ -77,8 +72,8 @@
             <!-- ================= PILAR 2 ================= -->
             <div class="panel" id="panel-2" style="display: none;">
                 <div class="input-group">
-                    <input type="text" class="palabra-input" id="input-2" placeholder="Segundo término..." autocomplete="off">
-                    <button class="btn-limpiar" onclick="limpiarPilar(2)" title="Limpiar Pilar">✖</button>
+                    <input type="text" class="palabra-input" id="input-2" placeholder="Segundo término..." autocomplete="off" spellcheck="false">
+                    <button class="btn-limpiar" onclick="limpiarPilar(2)" title="Purgar Pilar">✖</button>
                 </div>
                 <div class="panel-toolbar">
                     <select id="fuente-geo-2" class="geo-select" onchange="procesarInput(2)">
@@ -88,7 +83,7 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(2)">Crear Sigilo</button>
-                    <button class="btn-accion" onclick="descargarArte(2)" title="Descargar Símbolo">⬇</button>
+                    <button class="btn-accion" onclick="descargarArte(2)" title="Extraer Símbolo">⬇</button>
                 </div>
                 <div class="visualizador-espacial" id="visualizador-2">
                     <div id="geometria-2" class="arte-contenedor" style="display: flex;"></div>
@@ -106,8 +101,8 @@
             <!-- ================= PILAR 3 ================= -->
             <div class="panel" id="panel-3" style="display: none;">
                 <div class="input-group">
-                    <input type="text" class="palabra-input" id="input-3" placeholder="Tercer término..." autocomplete="off">
-                    <button class="btn-limpiar" onclick="limpiarPilar(3)" title="Limpiar Pilar">✖</button>
+                    <input type="text" class="palabra-input" id="input-3" placeholder="Tercer término..." autocomplete="off" spellcheck="false">
+                    <button class="btn-limpiar" onclick="limpiarPilar(3)" title="Purgar Pilar">✖</button>
                 </div>
                 <div class="panel-toolbar">
                     <select id="fuente-geo-3" class="geo-select" onchange="procesarInput(3)">
@@ -117,7 +112,7 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(3)">Crear Sigilo</button>
-                    <button class="btn-accion" onclick="descargarArte(3)" title="Descargar Símbolo">⬇</button>
+                    <button class="btn-accion" onclick="descargarArte(3)" title="Extraer Símbolo">⬇</button>
                 </div>
                 <div class="visualizador-espacial" id="visualizador-3">
                     <div id="geometria-3" class="arte-contenedor" style="display: flex;"></div>
@@ -135,8 +130,8 @@
             <!-- ================= PILAR 4 ================= -->
             <div class="panel" id="panel-4" style="display: none;">
                 <div class="input-group">
-                    <input type="text" class="palabra-input" id="input-4" placeholder="Cuarto término..." autocomplete="off">
-                    <button class="btn-limpiar" onclick="limpiarPilar(4)" title="Limpiar Pilar">✖</button>
+                    <input type="text" class="palabra-input" id="input-4" placeholder="Cuarto término..." autocomplete="off" spellcheck="false">
+                    <button class="btn-limpiar" onclick="limpiarPilar(4)" title="Purgar Pilar">✖</button>
                 </div>
                 <div class="panel-toolbar">
                     <select id="fuente-geo-4" class="geo-select" onchange="procesarInput(4)">
@@ -146,7 +141,7 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(4)">Crear Sigilo</button>
-                    <button class="btn-accion" onclick="descargarArte(4)" title="Descargar Símbolo">⬇</button>
+                    <button class="btn-accion" onclick="descargarArte(4)" title="Extraer Símbolo">⬇</button>
                 </div>
                 <div class="visualizador-espacial" id="visualizador-4">
                     <div id="geometria-4" class="arte-contenedor" style="display: flex;"></div>
@@ -164,16 +159,17 @@
         </div>
     </main>
 
-    <!-- Scripts y Generador de Ascuas -->
-    <script src="motor.js?v=10"></script>
+    <!-- Archivo Lógico Centralizado -->
+    <script src="motor.js?v=11"></script>
+    
+    <!-- Inicializador de Entorno -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=10').catch(err => console.error('Fallo en el SW.', err));
+                navigator.serviceWorker.register('sw.js?v=11').catch(err => console.error('Fallo en el SW.', err));
             });
         }
         
-        // Generador de ascuas de fuego seguras (no bloquean clicks)
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('emberContainer');
             if (!container) return;
