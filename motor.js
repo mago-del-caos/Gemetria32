@@ -1,5 +1,5 @@
 // ==========================================
-// DICCIONARIOS GEMÁTRICOS
+// DICCIONARIOS GEMÁTRICOS (v11)
 // ==========================================
 const valoresSimples = {
     'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9,
@@ -13,6 +13,9 @@ const valoresPitagoricos = {
     'r': 1, 's': 2, 't': 3, 'u': 4, 'v': 5, 'w': 6, 'x': 7, 'y': 8, 'z': 9
 };
 
+// ==========================================
+// LÓGICA DE CÁLCULO AISLADA
+// ==========================================
 function limpiarTexto(texto) {
     if (!texto) return '';
     return texto.toLowerCase()
@@ -29,7 +32,9 @@ function reducirNumero(numero) {
     let numStr = numero.toString();
     while (numStr.length > 1) {
         let numObj = parseInt(numStr);
+        // Retención de Números Maestros
         if (numObj === 11 || numObj === 22 || numObj === 33) return numObj;
+        
         let suma = 0;
         for (let i = 0; i < numStr.length; i++) suma += parseInt(numStr[i]);
         numStr = suma.toString();
@@ -38,7 +43,7 @@ function reducirNumero(numero) {
 }
 
 // ==========================================
-// 1. GEOMETRÍA SAGRADA (3D WIREFRAME)
+// 1. MOTOR GRÁFICO: GEOMETRÍA SAGRADA (3D)
 // ==========================================
 function dibujarGeometria(numero, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
@@ -66,7 +71,7 @@ function dibujarGeometria(numero, contenedorId) {
 }
 
 // ==========================================
-// 2. MAGIA SIGILAR (2D ROSACRUZ)
+// 2. MOTOR GRÁFICO: MAGIA SIGILAR (2D ROSACRUZ)
 // ==========================================
 function dibujarSigilo(palabra, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
@@ -105,7 +110,7 @@ function dibujarSigilo(palabra, contenedorId) {
 }
 
 // ==========================================
-// 3. SELLO ESTÁTICO (CUADRO MÁGICO / KAMEA)
+// 3. MOTOR GRÁFICO: KAMEA DE SATURNO (ESTÁTICO)
 // ==========================================
 function dibujarCuadroMagico(palabra, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
@@ -113,19 +118,12 @@ function dibujarCuadroMagico(palabra, contenedorId) {
     if (!palabra) { contenedor.innerHTML = ''; return; }
 
     const coords = {
-        1: {x: 50, y: 83.3},
-        2: {x: 83.3, y: 16.6},
-        3: {x: 16.6, y: 50},
-        4: {x: 16.6, y: 16.6},
-        5: {x: 50, y: 50},
-        6: {x: 83.3, y: 83.3},
-        7: {x: 83.3, y: 50},
-        8: {x: 16.6, y: 83.3},
-        9: {x: 50, y: 16.6}
+        1: {x: 50, y: 83.3}, 2: {x: 83.3, y: 16.6}, 3: {x: 16.6, y: 50},
+        4: {x: 16.6, y: 16.6}, 5: {x: 50, y: 50}, 6: {x: 83.3, y: 83.3},
+        7: {x: 83.3, y: 50}, 8: {x: 16.6, y: 83.3}, 9: {x: 50, y: 16.6}
     };
 
-    let pathD = "";
-    let puntosCamino = [];
+    let pathD = ""; let puntosCamino = [];
 
     for (let i = 0; i < palabra.length; i++) {
         let letra = palabra[i];
@@ -160,7 +158,7 @@ function dibujarCuadroMagico(palabra, contenedorId) {
 }
 
 // ==========================================
-// CONTROLADOR CENTRAL BLINDADO
+// CONTROLADOR MAESTRO (BLINDADO)
 // ==========================================
 window.procesarInput = function(indice) {
     try {
@@ -193,16 +191,17 @@ window.procesarInput = function(indice) {
             else if (fuenteSelect.value === 'simple') numeroGeometria = sumaSimple;
         }
 
+        // Renderizado Simultáneo en Segundo Plano
         dibujarGeometria(numeroGeometria, `geometria-${indice}`);
         dibujarSigilo(textoLimpio, `sigilo-${indice}`);
         dibujarCuadroMagico(textoLimpio, `bruno-${indice}`);
     } catch (error) {
-        console.error("Error en procesarInput:", error);
+        console.warn("Mesa de Trazado: Anomalía detectada y contenida en pilar " + indice);
     }
 }
 
 // ==========================================
-// FUNCIONES EXTRAS REFORZADAS
+// UTILIDADES: PURGA Y DESCARGA
 // ==========================================
 window.limpiarPilar = function(indice) {
     const input = document.getElementById(`input-${indice}`);
@@ -217,7 +216,7 @@ window.descargarArte = function(indice) {
         const input = document.getElementById(`input-${indice}`);
         let palabra = input && input.value.trim() !== '' ? limpiarTexto(input.value) : 'Vacio';
         if (palabra === 'Vacio') {
-            alert('Por favor, ingresa un término primero para generar un símbolo.');
+            alert('Por favor, ingresa un término primero.');
             return;
         }
 
@@ -227,13 +226,13 @@ window.descargarArte = function(indice) {
         let contenedorId = ''; let sufijo = '';
         if (estado === 'geo') { contenedorId = `geometria-${indice}`; sufijo = 'Geometria'; }
         else if (estado === 'sig') { contenedorId = `sigilo-${indice}`; sufijo = 'Sigilo'; }
-        else if (estado === 'bru') { contenedorId = `bruno-${indice}`; sufijo = 'Kamea'; }
+        else if (estado === 'bru') { contenedorId = `bruno-${indice}`; sufijo = 'CuadroMagico'; }
 
         const contenedor = document.getElementById(contenedorId);
         const svgOriginal = contenedor.querySelector('svg');
         if (!svgOriginal) return;
 
-        // Clonamos el SVG para forzar su tamaño a 1000x1000 sin afectar la vista del celular
+        // Clonamos para resolución 1000x1000px
         const svgElement = svgOriginal.cloneNode(true);
         svgElement.setAttribute("width", "1000");
         svgElement.setAttribute("height", "1000");
@@ -243,7 +242,7 @@ window.descargarArte = function(indice) {
         canvas.width = 1000; canvas.height = 1000;
         const ctx = canvas.getContext("2d");
 
-        // Rellenar fondo oscuro
+        // Fondo Oscuro de la Logia
         ctx.fillStyle = "#1e112a";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -260,14 +259,17 @@ window.descargarArte = function(indice) {
             document.body.removeChild(enlace);
         };
         
-        // Conversión segura Base64
+        // Conversión limpia a Base64
         const svg64 = btoa(unescape(encodeURIComponent(svgData)));
         img.src = 'data:image/svg+xml;base64,' + svg64;
     } catch (error) {
-        alert("Ocurrió un error al intentar descargar la imagen: " + error.message);
+        alert("Error de extracción: " + error.message);
     }
 }
 
+// ==========================================
+// CICLADOR DE ESTADOS (TETRAGRAMA)
+// ==========================================
 window.ciclarArte = function(indice) {
     const geo = document.getElementById(`geometria-${indice}`);
     const sig = document.getElementById(`sigilo-${indice}`);
@@ -306,6 +308,7 @@ window.cambiarColumnas = function(cantidad) {
     container.className = `paneles-grid layout-${cantidad}`;
 }
 
+// INICIALIZADOR
 document.addEventListener('DOMContentLoaded', () => {
     for (let i = 1; i <= 4; i++) {
         const input = document.getElementById(`input-${i}`);
