@@ -1,3 +1,6 @@
+// ==========================================
+// DICCIONARIOS GEMÁTRICOS
+// ==========================================
 const valoresSimples = {
     'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9,
     'j': 10, 'k': 11, 'l': 12, 'm': 13, 'n': 14, 'ñ': 15, 'o': 16, 'p': 17, 'q': 18,
@@ -10,39 +13,63 @@ const valoresPitagoricos = {
     'r': 1, 's': 2, 't': 3, 'u': 4, 'v': 5, 'w': 6, 'x': 7, 'y': 8, 'z': 9
 };
 
+// ==========================================
+// FUNCIONES DE PROCESAMIENTO
+// ==========================================
 function limpiarTexto(texto) {
-    return texto.toLowerCase().replace(/[áäâà]/g, 'a').replace(/[éëêè]/g, 'e').replace(/[íïîì]/g, 'i').replace(/[óöôò]/g, 'o').replace(/[úüûù]/g, 'u').replace(/[^a-zñ]/g, '');
+    return texto.toLowerCase()
+        .replace(/[áäâà]/g, 'a')
+        .replace(/[éëêè]/g, 'e')
+        .replace(/[íïîì]/g, 'i')
+        .replace(/[óöôò]/g, 'o')
+        .replace(/[úüûù]/g, 'u')
+        .replace(/[^a-zñ]/g, '');
 }
 
 function reducirNumero(numero) {
     if (numero === 0) return 0;
     let numStr = numero.toString();
+    
     while (numStr.length > 1) {
         let numObj = parseInt(numStr);
+        // Respetamos los Números Maestros
         if (numObj === 11 || numObj === 22 || numObj === 33) return numObj;
+        
         let suma = 0;
-        for (let i = 0; i < numStr.length; i++) suma += parseInt(numStr[i]);
+        for (let i = 0; i < numStr.length; i++) {
+            suma += parseInt(numStr[i]);
+        }
         numStr = suma.toString();
     }
     return parseInt(numStr);
 }
 
+// ==========================================
+// MOTOR 3D: GEOMETRÍA SAGRADA
+// ==========================================
 function dibujarGeometria(numero, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
-    if (numero === 0 || !contenedor) { 
-        if(contenedor) contenedor.innerHTML = ''; 
+    if (!contenedor) return;
+    if (numero === 0) { 
+        contenedor.innerHTML = ''; 
         return; 
     }
 
     let lados = numero < 3 ? 3 : numero; 
     let puntos = [];
-    const radio = 45; const centro = 50; 
+    const radio = 45; 
+    const centro = 50; 
 
+    // Calculamos los vértices
     for (let i = 0; i < lados; i++) {
         const angulo = (i * 2 * Math.PI) / lados - Math.PI / 2;
-        puntos.push({ x: centro + radio * Math.cos(angulo), y: centro + radio * Math.sin(angulo) });
+        puntos.push({ 
+            x: centro + radio * Math.cos(angulo), 
+            y: centro + radio * Math.sin(angulo) 
+        });
     }
 
+    // Trazamos la red de conexiones (Wireframe)
     let lineas = '';
     for (let i = 0; i < puntos.length; i++) {
         for (let j = i + 1; j < puntos.length; j++) {
@@ -51,22 +78,27 @@ function dibujarGeometria(numero, contenedorId) {
     }
 
     let poligono = `<polygon points="${puntos.map(p => `${p.x},${p.y}`).join(' ')}" stroke="var(--gold)" stroke-width="1.5" fill="rgba(212, 175, 55, 0.05)" />`;
+
     contenedor.innerHTML = `<svg viewBox="0 0 100 100" class="figura-sagrada">${lineas}${poligono}</svg>`;
 }
 
-// NUEVO: Motor de Trazado de Sigilos (Rueda Rosacruz)
+// ==========================================
+// MOTOR 2D: TRAZADO DE SIGILOS
+// ==========================================
 function dibujarSigilo(palabra, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
-    if (!palabra || !contenedor) { 
-        if(contenedor) contenedor.innerHTML = ''; 
+    if (!contenedor) return;
+    if (!palabra) { 
+        contenedor.innerHTML = ''; 
         return; 
     }
 
-    const radio = 40; const centro = 50;
+    const radio = 40; 
+    const centro = 50;
     const alfabeto = "abcdefghijklmnñopqrstuvwxyz";
     const puntos = {};
 
-    // Distribuimos el alfabeto en la circunferencia
+    // Mapeo del abecedario en la rueda esotérica
     for (let i = 0; i < alfabeto.length; i++) {
         const angulo = (i * 2 * Math.PI) / alfabeto.length - Math.PI / 2;
         puntos[alfabeto[i]] = {
@@ -78,7 +110,7 @@ function dibujarSigilo(palabra, contenedorId) {
     let pathD = "";
     let puntosCamino = [];
 
-    // Trazamos el hilo conductor del verbo
+    // Recorrido de la palabra
     for (let i = 0; i < palabra.length; i++) {
         const letra = palabra[i];
         if (puntos[letra]) {
@@ -97,9 +129,9 @@ function dibujarSigilo(palabra, contenedorId) {
     
     if (puntosCamino.length > 0) {
         sigiloSVG += `<path d="${pathD}" stroke="var(--gold-bright)" stroke-width="1.5" fill="none" stroke-linejoin="round" />`;
-        // Círculo marca el punto de inicio del conjuro
+        // Origen del trazo
         sigiloSVG += `<circle cx="${puntosCamino[0].x}" cy="${puntosCamino[0].y}" r="2.5" fill="var(--gold)" />`;
-        // Remate en el punto final
+        // Final del trazo
         const last = puntosCamino[puntosCamino.length - 1];
         sigiloSVG += `<circle cx="${last.x}" cy="${last.y}" r="1" fill="#fff" />`;
     }
@@ -108,7 +140,10 @@ function dibujarSigilo(palabra, contenedorId) {
     contenedor.innerHTML = sigiloSVG;
 }
 
-function procesarInput(indice) {
+// ==========================================
+// CONTROLADOR DE PANELES Y EVENTOS
+// ==========================================
+window.procesarInput = function(indice) {
     const input = document.getElementById(`input-${indice}`);
     if(!input) return;
 
@@ -130,9 +165,9 @@ function procesarInput(indice) {
     document.getElementById(`maestro-${indice}`).textContent = numeroSintesis;
     document.getElementById(`destino-${indice}`).textContent = numeroDestino;
 
-    // Lógica para seleccionar la fuente geométrica
+    // Leemos qué plano vibratorio elegiste para la geometría
     const fuenteSelect = document.getElementById(`fuente-geo-${indice}`);
-    let numeroGeometria = numeroSintesis; // Por defecto
+    let numeroGeometria = numeroSintesis; 
     
     if (fuenteSelect) {
         if (fuenteSelect.value === 'destino') numeroGeometria = numeroDestino;
@@ -140,7 +175,7 @@ function procesarInput(indice) {
         else if (fuenteSelect.value === 'simple') numeroGeometria = sumaSimple;
     }
 
-    // Dibujamos ambas representaciones en segundo plano
+    // Renderizamos ambos constructos visuales en tiempo real
     dibujarGeometria(numeroGeometria, `geometria-${indice}`);
     dibujarSigilo(textoLimpio, `sigilo-${indice}`);
 }
@@ -171,13 +206,14 @@ window.cambiarColumnas = function(cantidad) {
 
     for (let i = 1; i <= 4; i++) {
         const panel = document.getElementById(`panel-${i}`);
-        if (panel) panel.style.display = i <= cantidad ? 'block' : 'none';
+        if (panel) panel.style.display = i <= cantidad ? 'flex' : 'none';
     }
 
     const container = document.getElementById('paneles-container');
     container.className = `paneles-grid layout-${cantidad}`;
 }
 
+// Inicialización de la logia digital
 document.addEventListener('DOMContentLoaded', () => {
     for (let i = 1; i <= 4; i++) {
         const input = document.getElementById(`input-${i}`);
