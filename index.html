@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEMATRÍA 32 | Mesa de Trazado (v8)</title>
+    <title>GEMATRÍA 32 | Mesa de Trazado (v9)</title>
 
-    <link rel="manifest" href="manifest.json?v=8">
+    <link rel="manifest" href="manifest.json?v=9">
     <meta name="theme-color" content="#1e112a">
-    <link rel="icon" type="image/png" href="Logo.png?v=8">
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="icon" type="image/png" href="Logo.png?v=9">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
     <div class="ambient-glow"></div>
@@ -17,13 +17,12 @@
     <main class="container-fluid">
         <header>
             <div class="logo-container">
-                <img src="Logo.png?v=8" alt="Emblema GEMATRÍA 32" class="logo">
+                <img src="Logo.png?v=9" alt="Emblema GEMATRÍA 32" class="logo">
             </div>
             <h1>GEMATRÍA 32</h1>
-            <p>Análisis Numérico y Geometría del Verbo</p>
+            <p>Geometría Sagrada, Sigilos y Ruedas de Bruno</p>
         </header>
 
-        <!-- Selector del Tetragrama -->
         <div class="control-panel">
             <span class="control-label">Pilares de Análisis:</span>
             <button class="btn-control active" onclick="cambiarColumnas(1)">1</button>
@@ -34,7 +33,7 @@
 
         <div id="paneles-container" class="paneles-grid layout-1">
             
-            <!-- PILAR 1 -->
+            <!-- PANEL 1 -->
             <div class="panel" id="panel-1">
                 <input type="text" class="palabra-input" id="input-1" placeholder="Primer término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -44,11 +43,12 @@
                         <option value="pitagorica">Base: Pitagórica</option>
                         <option value="simple">Base: Simple</option>
                     </select>
-                    <button class="btn-sigilo" onclick="toggleSigilo(1)">Crear Sigilo</button>
+                    <button class="btn-visual" data-estado="geo" onclick="ciclarArte(1)">Crear Sigilo</button>
                 </div>
                 <div class="visualizador-espacial">
                     <div id="geometria-1" class="geometria-contenedor"></div>
                     <div id="sigilo-1" class="sigilo-contenedor" style="display: none;"></div>
+                    <div id="bruno-1" class="bruno-contenedor" style="display: none;"></div>
                 </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-1" class="numero">0</div></div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <!-- PILAR 2 -->
+            <!-- PANEL 2 -->
             <div class="panel" id="panel-2" style="display: none;">
                 <input type="text" class="palabra-input" id="input-2" placeholder="Segundo término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -68,11 +68,12 @@
                         <option value="pitagorica">Base: Pitagórica</option>
                         <option value="simple">Base: Simple</option>
                     </select>
-                    <button class="btn-sigilo" onclick="toggleSigilo(2)">Crear Sigilo</button>
+                    <button class="btn-visual" data-estado="geo" onclick="ciclarArte(2)">Crear Sigilo</button>
                 </div>
                 <div class="visualizador-espacial">
                     <div id="geometria-2" class="geometria-contenedor"></div>
                     <div id="sigilo-2" class="sigilo-contenedor" style="display: none;"></div>
+                    <div id="bruno-2" class="bruno-contenedor" style="display: none;"></div>
                 </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-2" class="numero">0</div></div>
@@ -82,7 +83,7 @@
                 </div>
             </div>
 
-            <!-- PILAR 3 -->
+            <!-- PANEL 3 -->
             <div class="panel" id="panel-3" style="display: none;">
                 <input type="text" class="palabra-input" id="input-3" placeholder="Tercer término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -92,11 +93,12 @@
                         <option value="pitagorica">Base: Pitagórica</option>
                         <option value="simple">Base: Simple</option>
                     </select>
-                    <button class="btn-sigilo" onclick="toggleSigilo(3)">Crear Sigilo</button>
+                    <button class="btn-visual" data-estado="geo" onclick="ciclarArte(3)">Crear Sigilo</button>
                 </div>
                 <div class="visualizador-espacial">
                     <div id="geometria-3" class="geometria-contenedor"></div>
                     <div id="sigilo-3" class="sigilo-contenedor" style="display: none;"></div>
+                    <div id="bruno-3" class="bruno-contenedor" style="display: none;"></div>
                 </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-3" class="numero">0</div></div>
@@ -106,7 +108,7 @@
                 </div>
             </div>
 
-            <!-- PILAR 4 -->
+            <!-- PANEL 4 -->
             <div class="panel" id="panel-4" style="display: none;">
                 <input type="text" class="palabra-input" id="input-4" placeholder="Cuarto término..." autocomplete="off">
                 <div class="panel-toolbar">
@@ -116,11 +118,12 @@
                         <option value="pitagorica">Base: Pitagórica</option>
                         <option value="simple">Base: Simple</option>
                     </select>
-                    <button class="btn-sigilo" onclick="toggleSigilo(4)">Crear Sigilo</button>
+                    <button class="btn-visual" data-estado="geo" onclick="ciclarArte(4)">Crear Sigilo</button>
                 </div>
                 <div class="visualizador-espacial">
                     <div id="geometria-4" class="geometria-contenedor"></div>
                     <div id="sigilo-4" class="sigilo-contenedor" style="display: none;"></div>
+                    <div id="bruno-4" class="bruno-contenedor" style="display: none;"></div>
                 </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-4" class="numero">0</div></div>
@@ -133,17 +136,13 @@
         </div>
     </main>
 
-    <script src="motor.js?v=8"></script>
+    <script src="motor.js?v=9"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=8')
-                    .then(() => console.log('SW registrado.'))
-                    .catch(err => console.error('Fallo en el SW.', err));
+                navigator.serviceWorker.register('sw.js?v=9').catch(err => console.error('Fallo en el SW.', err));
             });
         }
-
-        // Fuego y Ascuas
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('emberContainer');
             if (!container) return;
