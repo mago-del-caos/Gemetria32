@@ -3,29 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEMATRIA 32 | Análisis Numérico (v4)</title>
+    <title>GEMATRÍA 32 | Análisis Numérico (v5)</title>
 
-    <!-- PWA Manifest con Control de Versiones -->
-    <link rel="manifest" href="manifest.json?v=4">
-    
-    <!-- Color de la barra de estado: Morado Profundo -->
+    <link rel="manifest" href="manifest.json?v=5">
     <meta name="theme-color" content="#1e112a">
-    
-    <!-- Ruta actualizada al nuevo emblema principal -->
-    <link rel="icon" type="image/png" href="Logo.png?v=4">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="icon" type="image/png" href="Logo.png?v=5">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
     <div class="ambient-glow"></div>
-    <div class="particle-container" id="emberContainer"></div> <!-- Efecto de Ascuas -->
+    <div class="particle-container" id="emberContainer"></div>
     
     <main class="container">
         <header>
             <div class="logo-container">
-                <!-- Ruta actualizada al nuevo emblema principal -->
-                <img src="Logo.png?v=4" alt="Emblema GEMETRIA 32" class="logo">
+                <img src="Logo.png?v=5" alt="Emblema GEMATRÍA 32" class="logo">
             </div>
-            <h1>GEMATRIA 32</h1>
+            <h1>GEMATRÍA 32</h1>
             <p>Análisis Numérico y Geometría del Verbo</p>
         </header>
 
@@ -33,10 +27,13 @@
             <input type="text" id="palabraInput" placeholder="Introduzca el término a analizar..." autocomplete="off" autofocus>
         </section>
 
+        <!-- Contenedor para la proyección 3D -->
+        <div id="geometriaContenedor" class="geometria-contenedor"></div>
+
         <section class="resultados-grid">
             <div class="card">
                 <div class="card-header">
-                    <h2>Valor Simple</h2>
+                    <h2>Gematría Simple</h2>
                     <span class="badge">27</span>
                 </div>
                 <div id="resSimple" class="numero">0</div>
@@ -45,7 +42,7 @@
             
             <div class="card">
                 <div class="card-header">
-                    <h2>Valor Pitagórico</h2>
+                    <h2>Gematría Pitagórica</h2>
                     <span class="badge">1-9</span>
                 </div>
                 <div id="resPitagorica" class="numero">0</div>
@@ -54,51 +51,52 @@
             
             <div class="card maestro-card">
                 <div class="card-header">
-                    <h2>Síntesis Numérica</h2>
+                    <h2>Síntesis</h2>
                     <span class="badge maestro-badge">M</span>
                 </div>
                 <div id="resMaestro" class="numero">0</div>
                 <p class="descripcion-card">Arquetipo Maestro</p>
             </div>
+
+            <!-- Nueva Tarjeta: Número de Destino -->
+            <div class="card destino-card">
+                <div class="card-header">
+                    <h2>Número de Destino</h2>
+                    <span class="badge maestro-badge">★</span>
+                </div>
+                <div id="resDestino" class="numero">0</div>
+                <p class="descripcion-card">Lecciones del Camino</p>
+            </div>
         </section>
     </main>
 
-    <!-- Enlace al motor lógico versionado -->
-    <script src="motor.js?v=4"></script>
-
-    <!-- Registro del Service Worker versionado -->
+    <script src="motor.js?v=5"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Versionamos el registro del SW para forzar la actualización
-                navigator.serviceWorker.register('sw.js?v=4')
+                navigator.serviceWorker.register('sw.js?v=5')
                     .catch(err => console.error('Fallo en el SW.', err));
             });
         }
-    </script>
-    
-    <!-- Generación de partículas de ascuas -->
-    <script>
+
+        // Ascuas
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('emberContainer');
             if (!container) return;
-
             for (let i = 0; i < 30; i++) {
                 const ember = document.createElement('div');
                 ember.classList.add('ember');
-                // Distribuir tamaño, posición inicial, retraso y duración de forma aleatoria
-                const size = Math.random() * 6 + 3; // 3px a 9px
+                const size = Math.random() * 6 + 3;
                 ember.style.width = `${size}px`;
                 ember.style.height = `${size}px`;
                 ember.style.left = `${Math.random() * 100}%`;
-                ember.style.top = `${Math.random() * 100}%`; // Empezar disperso por la pantalla
+                ember.style.top = `${Math.random() * 100}%`;
                 ember.style.animationDelay = `${Math.random() * 5}s`;
-                ember.style.animationDuration = `${Math.random() * 8 + 6}s`; // 6s a 14s
-                ember.style.opacity = Math.random() * 0.5 + 0.3; // 0.3 a 0.8
+                ember.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                ember.style.opacity = Math.random() * 0.5 + 0.3;
                 container.appendChild(ember);
             }
         });
     </script>
 </body>
 </html>
- 
