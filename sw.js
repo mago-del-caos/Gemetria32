@@ -1,15 +1,15 @@
 // ==========================================
 // SERVICE WORKER - CACHÉ V10 (ESTRUCTURA BLINDADA)
 // ==========================================
-const CACHE_NAME = 'gametria32-v10';
+const CACHE_NAME = 'gametria32-v11';
 
-// El catálogo de archivos que conforman el templo, sellados con la versión 10
+// El catálogo de archivos que conforman el templo, sellados con la versión 11
 const urlsToCache = [
     './?v=10',
-    './index.html?v=10',
-    './style.css?v=10',
-    './motor.js?v=10',
-    './manifest.json?v=10',
+    './index.html?v=11',
+    './style.css?v=11',
+    './motor.js?v=11',
+    './manifest.json?v=11',
     './Logo.png',
     './Logo1png'
 ];
