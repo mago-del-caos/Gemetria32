@@ -13,10 +13,8 @@ const valoresPitagoricos = {
     'r': 1, 's': 2, 't': 3, 'u': 4, 'v': 5, 'w': 6, 'x': 7, 'y': 8, 'z': 9
 };
 
-// ==========================================
-// FUNCIONES DE PROCESAMIENTO
-// ==========================================
 function limpiarTexto(texto) {
+    if (!texto) return '';
     return texto.toLowerCase()
         .replace(/[áäâà]/g, 'a')
         .replace(/[éëêè]/g, 'e')
@@ -27,7 +25,7 @@ function limpiarTexto(texto) {
 }
 
 function reducirNumero(numero) {
-    if (numero === 0) return 0;
+    if (!numero || numero === 0) return 0;
     let numStr = numero.toString();
     while (numStr.length > 1) {
         let numObj = parseInt(numStr);
@@ -53,7 +51,7 @@ function dibujarGeometria(numero, contenedorId) {
 
     for (let i = 0; i < lados; i++) {
         const angulo = (i * 2 * Math.PI) / lados - Math.PI / 2;
-        puntos.push({ x: centro + radio * Math.cos(angulo), y: centro + radio * Math.sin(angulo) });
+        puntos.push({ x: centro + radio * Math.cos(angulo), y: centro + Math.sin(angulo) * radio });
     }
 
     let lineas = '';
@@ -64,7 +62,6 @@ function dibujarGeometria(numero, contenedorId) {
     }
     let poligono = `<polygon points="${puntos.map(p => `${p.x},${p.y}`).join(' ')}" stroke="#d4af37" stroke-width="1.5" fill="rgba(212, 175, 55, 0.05)" />`;
     
-    // xmlns es vital para la extracción PNG
     contenedor.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="figura-sagrada">${lineas}${poligono}</svg>`;
 }
 
@@ -82,7 +79,7 @@ function dibujarSigilo(palabra, contenedorId) {
 
     for (let i = 0; i < alfabeto.length; i++) {
         const angulo = (i * 2 * Math.PI) / alfabeto.length - Math.PI / 2;
-        puntos[alfabeto[i]] = { x: centro + radio * Math.cos(angulo), y: centro + radio * Math.sin(angulo) };
+        puntos[alfabeto[i]] = { x: centro + radio * Math.cos(angulo), y: centro + Math.sin(angulo) * radio };
     }
 
     let pathD = ""; let puntosCamino = [];
@@ -133,21 +130,15 @@ function dibujarCuadroMagico(palabra, contenedorId) {
     for (let i = 0; i < palabra.length; i++) {
         let letra = palabra[i];
         let valorPitagorico = valoresPitagoricos[letra];
-        
         if (valorPitagorico && coords[valorPitagorico]) {
             let punto = coords[valorPitagorico];
             puntosCamino.push(punto);
-            if (pathD === "") {
-                pathD += `M ${punto.x} ${punto.y} `;
-            } else {
-                pathD += `L ${punto.x} ${punto.y} `;
-            }
+            if (pathD === "") pathD += `M ${punto.x} ${punto.y} `;
+            else pathD += `L ${punto.x} ${punto.y} `;
         }
     }
 
     let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="figura-kamea">`;
-    
-    // Cuadrícula Masónica
     svg += `<line x1="33.3" y1="5" x2="33.3" y2="95" stroke="rgba(178, 101, 232, 0.2)" stroke-width="0.5" />`;
     svg += `<line x1="66.6" y1="5" x2="66.6" y2="95" stroke="rgba(178, 101, 232, 0.2)" stroke-width="0.5" />`;
     svg += `<line x1="5" y1="33.3" x2="95" y2="33.3" stroke="rgba(178, 101, 232, 0.2)" stroke-width="0.5" />`;
@@ -160,7 +151,6 @@ function dibujarCuadroMagico(palabra, contenedorId) {
         svg += `<rect x="${last.x - 1.5}" y="${last.y - 1.5}" width="3" height="3" fill="#fff" />`;
     }
 
-    // Números Base
     for (let num in coords) {
         svg += `<text x="${coords[num].x}" y="${coords[num].y + 1}" text-anchor="middle" font-family="Courier New, monospace" font-size="4" fill="rgba(212, 175, 55, 0.3)">${num}</text>`;
     }
@@ -170,100 +160,114 @@ function dibujarCuadroMagico(palabra, contenedorId) {
 }
 
 // ==========================================
-// CONTROLADOR CENTRAL
+// CONTROLADOR CENTRAL BLINDADO
 // ==========================================
 window.procesarInput = function(indice) {
-    const input = document.getElementById(`input-${indice}`);
-    if(!input) return;
+    try {
+        const input = document.getElementById(`input-${indice}`);
+        if(!input) return;
 
-    const textoLimpio = limpiarTexto(input.value);
-    let sumaSimple = 0; let sumaPitagorica = 0;
+        const textoLimpio = limpiarTexto(input.value);
+        let sumaSimple = 0; let sumaPitagorica = 0;
 
-    for (let i = 0; i < textoLimpio.length; i++) {
-        let letra = textoLimpio[i];
-        sumaSimple += valoresSimples[letra] || 0;
-        sumaPitagorica += valoresPitagoricos[letra] || 0;
+        for (let i = 0; i < textoLimpio.length; i++) {
+            let letra = textoLimpio[i];
+            sumaSimple += valoresSimples[letra] || 0;
+            sumaPitagorica += valoresPitagoricos[letra] || 0;
+        }
+
+        let numeroSintesis = textoLimpio.length === 0 ? 0 : reducirNumero(sumaPitagorica);
+        let numeroDestino = textoLimpio.length === 0 ? 0 : reducirNumero(sumaSimple); 
+
+        document.getElementById(`simple-${indice}`).textContent = sumaSimple;
+        document.getElementById(`pitagorica-${indice}`).textContent = sumaPitagorica;
+        document.getElementById(`maestro-${indice}`).textContent = numeroSintesis;
+        document.getElementById(`destino-${indice}`).textContent = numeroDestino;
+
+        const fuenteSelect = document.getElementById(`fuente-geo-${indice}`);
+        let numeroGeometria = numeroSintesis; 
+        
+        if (fuenteSelect) {
+            if (fuenteSelect.value === 'destino') numeroGeometria = numeroDestino;
+            else if (fuenteSelect.value === 'pitagorica') numeroGeometria = sumaPitagorica;
+            else if (fuenteSelect.value === 'simple') numeroGeometria = sumaSimple;
+        }
+
+        dibujarGeometria(numeroGeometria, `geometria-${indice}`);
+        dibujarSigilo(textoLimpio, `sigilo-${indice}`);
+        dibujarCuadroMagico(textoLimpio, `bruno-${indice}`);
+    } catch (error) {
+        console.error("Error en procesarInput:", error);
     }
-
-    let numeroSintesis = textoLimpio.length === 0 ? 0 : reducirNumero(sumaPitagorica);
-    let numeroDestino = textoLimpio.length === 0 ? 0 : reducirNumero(sumaSimple); 
-
-    document.getElementById(`simple-${indice}`).textContent = sumaSimple;
-    document.getElementById(`pitagorica-${indice}`).textContent = sumaPitagorica;
-    document.getElementById(`maestro-${indice}`).textContent = numeroSintesis;
-    document.getElementById(`destino-${indice}`).textContent = numeroDestino;
-
-    const fuenteSelect = document.getElementById(`fuente-geo-${indice}`);
-    let numeroGeometria = numeroSintesis; 
-    
-    if (fuenteSelect) {
-        if (fuenteSelect.value === 'destino') numeroGeometria = numeroDestino;
-        else if (fuenteSelect.value === 'pitagorica') numeroGeometria = sumaPitagorica;
-        else if (fuenteSelect.value === 'simple') numeroGeometria = sumaSimple;
-    }
-
-    dibujarGeometria(numeroGeometria, `geometria-${indice}`);
-    dibujarSigilo(textoLimpio, `sigilo-${indice}`);
-    // Mantenemos el ID bruno en el HTML para evitar refactorizar más archivos
-    dibujarCuadroMagico(textoLimpio, `bruno-${indice}`);
 }
 
 // ==========================================
-// FUNCIONES EXTRAS (PURGA Y EXTRACCIÓN)
+// FUNCIONES EXTRAS REFORZADAS
 // ==========================================
 window.limpiarPilar = function(indice) {
     const input = document.getElementById(`input-${indice}`);
     if(input) {
         input.value = '';
-        procesarInput(indice);
+        window.procesarInput(indice);
     }
 }
 
 window.descargarArte = function(indice) {
-    const input = document.getElementById(`input-${indice}`);
-    let palabra = input && input.value.trim() !== '' ? limpiarTexto(input.value) : 'Vacio';
-    if (palabra === 'Vacio') {
-        alert('Por favor, ingresa un término primero.');
-        return;
-    }
+    try {
+        const input = document.getElementById(`input-${indice}`);
+        let palabra = input && input.value.trim() !== '' ? limpiarTexto(input.value) : 'Vacio';
+        if (palabra === 'Vacio') {
+            alert('Por favor, ingresa un término primero para generar un símbolo.');
+            return;
+        }
 
-    const btn = document.querySelector(`#panel-${indice} .btn-visual`);
-    const estado = btn.getAttribute('data-estado') || 'geo';
-    
-    let contenedorId = ''; let sufijo = '';
-    if (estado === 'geo') { contenedorId = `geometria-${indice}`; sufijo = 'Geometria'; }
-    else if (estado === 'sig') { contenedorId = `sigilo-${indice}`; sufijo = 'Sigilo'; }
-    else if (estado === 'bru') { contenedorId = `bruno-${indice}`; sufijo = 'CuadroMagico'; }
-
-    const contenedor = document.getElementById(contenedorId);
-    const svgElement = contenedor.querySelector('svg');
-    if (!svgElement) return;
-
-    const svgData = new XMLSerializer().serializeToString(svgElement);
-    const canvas = document.createElement("canvas");
-    canvas.width = 1000; canvas.height = 1000;
-    const ctx = canvas.getContext("2d");
-
-    // Fondo del Taller
-    ctx.fillStyle = "#1e112a";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const img = new Image();
-    img.onload = function() {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        const pngFile = canvas.toDataURL("image/png");
+        const btn = document.querySelector(`#panel-${indice} .btn-visual`);
+        const estado = btn.getAttribute('data-estado') || 'geo';
         
-        const enlace = document.createElement("a");
-        enlace.download = `Gematria32_${palabra}_${sufijo}.png`;
-        enlace.href = pngFile;
-        enlace.click();
-    };
-    
-    const svg64 = btoa(unescape(encodeURIComponent(svgData)));
-    img.src = 'data:image/svg+xml;base64,' + svg64;
+        let contenedorId = ''; let sufijo = '';
+        if (estado === 'geo') { contenedorId = `geometria-${indice}`; sufijo = 'Geometria'; }
+        else if (estado === 'sig') { contenedorId = `sigilo-${indice}`; sufijo = 'Sigilo'; }
+        else if (estado === 'bru') { contenedorId = `bruno-${indice}`; sufijo = 'Kamea'; }
+
+        const contenedor = document.getElementById(contenedorId);
+        const svgOriginal = contenedor.querySelector('svg');
+        if (!svgOriginal) return;
+
+        // Clonamos el SVG para forzar su tamaño a 1000x1000 sin afectar la vista del celular
+        const svgElement = svgOriginal.cloneNode(true);
+        svgElement.setAttribute("width", "1000");
+        svgElement.setAttribute("height", "1000");
+
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const canvas = document.createElement("canvas");
+        canvas.width = 1000; canvas.height = 1000;
+        const ctx = canvas.getContext("2d");
+
+        // Rellenar fondo oscuro
+        ctx.fillStyle = "#1e112a";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const img = new Image();
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const pngFile = canvas.toDataURL("image/png");
+            
+            const enlace = document.createElement("a");
+            enlace.download = `Gematria32_${palabra}_${sufijo}.png`;
+            enlace.href = pngFile;
+            document.body.appendChild(enlace);
+            enlace.click();
+            document.body.removeChild(enlace);
+        };
+        
+        // Conversión segura Base64
+        const svg64 = btoa(unescape(encodeURIComponent(svgData)));
+        img.src = 'data:image/svg+xml;base64,' + svg64;
+    } catch (error) {
+        alert("Ocurrió un error al intentar descargar la imagen: " + error.message);
+    }
 }
 
-// Ciclador de Estados Visuales (Actualizado para el Cuadro Mágico)
 window.ciclarArte = function(indice) {
     const geo = document.getElementById(`geometria-${indice}`);
     const sig = document.getElementById(`sigilo-${indice}`);
@@ -288,9 +292,11 @@ window.ciclarArte = function(indice) {
 }
 
 window.cambiarColumnas = function(cantidad) {
-    document.querySelectorAll('.btn-control').forEach((btn, index) => {
-        if (index + 1 === cantidad) btn.classList.add('active'); else btn.classList.remove('active');
-    });
+    const botones = document.querySelectorAll('.btn-control');
+    for (let i = 0; i < botones.length; i++) {
+        if (i + 1 === cantidad) botones[i].classList.add('active'); 
+        else botones[i].classList.remove('active');
+    }
 
     for (let i = 1; i <= 4; i++) {
         const panel = document.getElementById(`panel-${i}`);
@@ -303,6 +309,6 @@ window.cambiarColumnas = function(cantidad) {
 document.addEventListener('DOMContentLoaded', () => {
     for (let i = 1; i <= 4; i++) {
         const input = document.getElementById(`input-${i}`);
-        if(input) input.addEventListener('input', () => procesarInput(i));
+        if(input) input.addEventListener('input', () => window.procesarInput(i));
     }
 });
