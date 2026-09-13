@@ -2,27 +2,30 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEMATRÍA 32 | Mesa de Trazado (v9)</title>
+    <!-- Blindaje Móvil: Evita que el celular haga zoom al tocar el input y rompa el diseño -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GEMATRÍA 32 | Mesa de Trazado (v10)</title>
 
-    <link rel="manifest" href="manifest.json?v=9">
+    <link rel="manifest" href="manifest.json?v=10">
     <meta name="theme-color" content="#1e112a">
-    <link rel="icon" type="image/png" href="Logo.png?v=9">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="icon" type="image/png" href="Logo.png?v=10">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
+    <!-- Fondo y Ascuas -->
     <div class="ambient-glow"></div>
     <div class="particle-container" id="emberContainer"></div>
     
     <main class="container-fluid">
         <header>
             <div class="logo-container">
-                <img src="Logo.png?v=9" alt="Emblema GEMATRÍA 32" class="logo">
+                <img src="Logo.png?v=10" alt="Emblema GEMATRÍA 32" class="logo">
             </div>
             <h1>GEMATRÍA 32</h1>
-            <p>Geometría Sagrada, Sigilos y Ruedas de Bruno</p>
+            <p>Geometría Sagrada, Sigilos y Ruedas de Memoria</p>
         </header>
 
+        <!-- Selector de Pilares (Tetragrama) -->
         <div class="control-panel">
             <span class="control-label">Pilares de Análisis:</span>
             <button class="btn-control active" onclick="cambiarColumnas(1)">1</button>
@@ -31,11 +34,18 @@
             <button class="btn-control" onclick="cambiarColumnas(4)">4</button>
         </div>
 
+        <!-- Contenedor Dinámico -->
         <div id="paneles-container" class="paneles-grid layout-1">
             
-            <!-- PANEL 1 -->
+            <!-- ================= PILAR 1 ================= -->
             <div class="panel" id="panel-1">
-                <input type="text" class="palabra-input" id="input-1" placeholder="Primer término..." autocomplete="off">
+                <!-- Input con Botón de Purga -->
+                <div class="input-group">
+                    <input type="text" class="palabra-input" id="input-1" placeholder="Primer término..." autocomplete="off">
+                    <button class="btn-limpiar" onclick="limpiarPilar(1)" title="Limpiar Pilar">✖</button>
+                </div>
+                
+                <!-- Barra de Herramientas Extendida -->
                 <div class="panel-toolbar">
                     <select id="fuente-geo-1" class="geo-select" onchange="procesarInput(1)">
                         <option value="sintesis">Base: Síntesis</option>
@@ -44,12 +54,18 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(1)">Crear Sigilo</button>
+                    <!-- Botón para Descargar Símbolo -->
+                    <button class="btn-accion" onclick="descargarArte(1)" title="Descargar Símbolo">⬇</button>
                 </div>
-                <div class="visualizador-espacial">
-                    <div id="geometria-1" class="geometria-contenedor"></div>
-                    <div id="sigilo-1" class="sigilo-contenedor" style="display: none;"></div>
-                    <div id="bruno-1" class="bruno-contenedor" style="display: none;"></div>
+                
+                <!-- Visualizadores -->
+                <div class="visualizador-espacial" id="visualizador-1">
+                    <div id="geometria-1" class="arte-contenedor" style="display: flex;"></div>
+                    <div id="sigilo-1" class="arte-contenedor" style="display: none;"></div>
+                    <div id="bruno-1" class="arte-contenedor" style="display: none;"></div>
                 </div>
+                
+                <!-- Resultados -->
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-1" class="numero">0</div></div>
                     <div class="card"><div class="card-header"><h2>Pitagórica</h2></div><div id="pitagorica-1" class="numero">0</div></div>
@@ -58,9 +74,12 @@
                 </div>
             </div>
 
-            <!-- PANEL 2 -->
+            <!-- ================= PILAR 2 ================= -->
             <div class="panel" id="panel-2" style="display: none;">
-                <input type="text" class="palabra-input" id="input-2" placeholder="Segundo término..." autocomplete="off">
+                <div class="input-group">
+                    <input type="text" class="palabra-input" id="input-2" placeholder="Segundo término..." autocomplete="off">
+                    <button class="btn-limpiar" onclick="limpiarPilar(2)" title="Limpiar Pilar">✖</button>
+                </div>
                 <div class="panel-toolbar">
                     <select id="fuente-geo-2" class="geo-select" onchange="procesarInput(2)">
                         <option value="sintesis">Base: Síntesis</option>
@@ -69,11 +88,12 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(2)">Crear Sigilo</button>
+                    <button class="btn-accion" onclick="descargarArte(2)" title="Descargar Símbolo">⬇</button>
                 </div>
-                <div class="visualizador-espacial">
-                    <div id="geometria-2" class="geometria-contenedor"></div>
-                    <div id="sigilo-2" class="sigilo-contenedor" style="display: none;"></div>
-                    <div id="bruno-2" class="bruno-contenedor" style="display: none;"></div>
+                <div class="visualizador-espacial" id="visualizador-2">
+                    <div id="geometria-2" class="arte-contenedor" style="display: flex;"></div>
+                    <div id="sigilo-2" class="arte-contenedor" style="display: none;"></div>
+                    <div id="bruno-2" class="arte-contenedor" style="display: none;"></div>
                 </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-2" class="numero">0</div></div>
@@ -83,9 +103,12 @@
                 </div>
             </div>
 
-            <!-- PANEL 3 -->
+            <!-- ================= PILAR 3 ================= -->
             <div class="panel" id="panel-3" style="display: none;">
-                <input type="text" class="palabra-input" id="input-3" placeholder="Tercer término..." autocomplete="off">
+                <div class="input-group">
+                    <input type="text" class="palabra-input" id="input-3" placeholder="Tercer término..." autocomplete="off">
+                    <button class="btn-limpiar" onclick="limpiarPilar(3)" title="Limpiar Pilar">✖</button>
+                </div>
                 <div class="panel-toolbar">
                     <select id="fuente-geo-3" class="geo-select" onchange="procesarInput(3)">
                         <option value="sintesis">Base: Síntesis</option>
@@ -94,11 +117,12 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(3)">Crear Sigilo</button>
+                    <button class="btn-accion" onclick="descargarArte(3)" title="Descargar Símbolo">⬇</button>
                 </div>
-                <div class="visualizador-espacial">
-                    <div id="geometria-3" class="geometria-contenedor"></div>
-                    <div id="sigilo-3" class="sigilo-contenedor" style="display: none;"></div>
-                    <div id="bruno-3" class="bruno-contenedor" style="display: none;"></div>
+                <div class="visualizador-espacial" id="visualizador-3">
+                    <div id="geometria-3" class="arte-contenedor" style="display: flex;"></div>
+                    <div id="sigilo-3" class="arte-contenedor" style="display: none;"></div>
+                    <div id="bruno-3" class="arte-contenedor" style="display: none;"></div>
                 </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-3" class="numero">0</div></div>
@@ -108,9 +132,12 @@
                 </div>
             </div>
 
-            <!-- PANEL 4 -->
+            <!-- ================= PILAR 4 ================= -->
             <div class="panel" id="panel-4" style="display: none;">
-                <input type="text" class="palabra-input" id="input-4" placeholder="Cuarto término..." autocomplete="off">
+                <div class="input-group">
+                    <input type="text" class="palabra-input" id="input-4" placeholder="Cuarto término..." autocomplete="off">
+                    <button class="btn-limpiar" onclick="limpiarPilar(4)" title="Limpiar Pilar">✖</button>
+                </div>
                 <div class="panel-toolbar">
                     <select id="fuente-geo-4" class="geo-select" onchange="procesarInput(4)">
                         <option value="sintesis">Base: Síntesis</option>
@@ -119,11 +146,12 @@
                         <option value="simple">Base: Simple</option>
                     </select>
                     <button class="btn-visual" data-estado="geo" onclick="ciclarArte(4)">Crear Sigilo</button>
+                    <button class="btn-accion" onclick="descargarArte(4)" title="Descargar Símbolo">⬇</button>
                 </div>
-                <div class="visualizador-espacial">
-                    <div id="geometria-4" class="geometria-contenedor"></div>
-                    <div id="sigilo-4" class="sigilo-contenedor" style="display: none;"></div>
-                    <div id="bruno-4" class="bruno-contenedor" style="display: none;"></div>
+                <div class="visualizador-espacial" id="visualizador-4">
+                    <div id="geometria-4" class="arte-contenedor" style="display: flex;"></div>
+                    <div id="sigilo-4" class="arte-contenedor" style="display: none;"></div>
+                    <div id="bruno-4" class="arte-contenedor" style="display: none;"></div>
                 </div>
                 <div class="resultados-panel">
                     <div class="card"><div class="card-header"><h2>Simple</h2></div><div id="simple-4" class="numero">0</div></div>
@@ -136,25 +164,30 @@
         </div>
     </main>
 
-    <script src="motor.js?v=9"></script>
+    <!-- Scripts y Generador de Ascuas -->
+    <script src="motor.js?v=10"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=9').catch(err => console.error('Fallo en el SW.', err));
+                navigator.serviceWorker.register('sw.js?v=10').catch(err => console.error('Fallo en el SW.', err));
             });
         }
+        
+        // Generador de ascuas de fuego seguras (no bloquean clicks)
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('emberContainer');
             if (!container) return;
-            for (let i = 0; i < 35; i++) {
+            for (let i = 0; i < 30; i++) {
                 const ember = document.createElement('div');
                 ember.classList.add('ember');
-                const size = Math.random() * 6 + 3;
-                ember.style.width = `${size}px`; ember.style.height = `${size}px`;
-                ember.style.left = `${Math.random() * 100}%`; ember.style.top = `${Math.random() * 100}%`;
+                const size = Math.random() * 5 + 3;
+                ember.style.width = `${size}px`; 
+                ember.style.height = `${size}px`;
+                ember.style.left = `${Math.random() * 100}%`; 
+                ember.style.top = `${Math.random() * 100}%`;
                 ember.style.animationDelay = `${Math.random() * 5}s`;
-                ember.style.animationDuration = `${Math.random() * 8 + 6}s`;
-                ember.style.opacity = Math.random() * 0.5 + 0.3;
+                ember.style.animationDuration = `${Math.random() * 7 + 5}s`;
+                ember.style.opacity = Math.random() * 0.4 + 0.2;
                 container.appendChild(ember);
             }
         });
